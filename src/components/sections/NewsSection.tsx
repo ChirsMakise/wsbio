@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState, useRef } from "react";
+import Link from "next/link";
 import ScrollIndicator from "../ScrollIndicator";
 import { newsItems } from "@/data/content";
 
@@ -141,12 +142,12 @@ export default function NewsSection({
                         </span>
                       </a>
                     ))}
-                    <a
+                    <Link
                       href="/news"
                       className="bracket-link text-white text-xs mt-2"
                     >
                       [ VIEW ALL ]
-                    </a>
+                    </Link>
                   </div>
                 </div>
               )}

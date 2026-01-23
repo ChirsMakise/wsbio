@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState, useRef } from "react";
+import Link from "next/link";
 import ScrollIndicator from "../ScrollIndicator";
 import { bioContent } from "@/data/content";
 
@@ -103,12 +104,12 @@ export default function BiographySection({
                   isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
                 }`}
               >
-                <a
+                <Link
                   href="/resume"
                   className="bracket-link text-white text-sm sm:text-base"
                 >
                   [ READ FULL BIOGRAPHY ]
-                </a>
+                </Link>
               </div>
             </div>
           </div>
