@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState, useRef } from "react";
+import Link from "next/link";
 import ScrollIndicator from "../ScrollIndicator";
 import { upcomingConcerts } from "@/data/content";
 
@@ -151,12 +152,12 @@ export default function ConcertsSection({
                         </span>
                       </button>
                     ))}
-                    <a
+                    <Link
                       href="/concerts"
                       className="bracket-link text-white text-xs mt-2"
                     >
                       [ VIEW ALL ]
-                    </a>
+                    </Link>
                   </div>
                 </div>
               )}
