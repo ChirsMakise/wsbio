@@ -40,12 +40,12 @@ export default function NewsPage() {
                   {news.description}
                 </p>
               )}
-              <a
+              <Link
                 href={news.link}
                 className="inline-block text-white text-sm hover:opacity-70 transition-opacity"
               >
                 [ {news.cta?.toUpperCase() || "READ MORE"} ]
-              </a>
+              </Link>
             </article>
           ))}
         </div>
