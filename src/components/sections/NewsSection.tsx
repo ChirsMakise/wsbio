@@ -117,12 +117,12 @@ export default function NewsSection({
                       </p>
                     )}
 
-                    <a
+                    <Link
                       href={currentNews.link}
                       className="bracket-link text-white text-sm sm:text-base"
                     >
                       [ {currentNews.cta?.toUpperCase() || "READ MORE"} ]
-                    </a>
+                    </Link>
                   </div>
 
                   {/* News Navigation */}
