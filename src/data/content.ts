@@ -583,6 +583,6 @@ export const navigationItems = [
   { label: "News", href: "#news" },
   { label: "Upcoming Concerts", href: "#concerts" },
   { label: "Wenting's Gallery", href: siteConfig.galleryLink, external: true },
-  { label: "Artistic Resumé", href: "/resume" },
+  { label: "Artistic Resumé", href: "#resume" },
   { label: "Contact", href: "#contact" },
 ];
