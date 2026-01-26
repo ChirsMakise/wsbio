@@ -28,38 +28,63 @@ export default function Home() {
 
       {/* Hero Section */}
       <HeroSection
-        imageSrc="/images/hero-placeholder.jpg"
         soundEnabled={soundEnabled}
+        onSoundToggle={handleSoundToggle}
       />
 
-      {/* News Sections - 3 scrollable pages */}
-      <NewsSection
-        imageSrc="/images/news-placeholder.jpg"
-        soundEnabled={soundEnabled}
-        newsIndex={0}
-      />
-      <NewsSection
-        imageSrc="/images/news-placeholder.jpg"
-        soundEnabled={soundEnabled}
-        newsIndex={1}
-      />
-      <NewsSection
-        imageSrc="/images/news-placeholder.jpg"
-        soundEnabled={soundEnabled}
-        newsIndex={2}
-      />
+      {/* News Sections - 3 scrollable pages with shared background */}
+      <div className="news-container">
+        <div
+          className="news-sticky-background"
+          style={{ backgroundImage: "url(/images/news.JPG)" }}
+        />
+        <div className="news-sticky-overlay" />
+        <div className="news-content-wrapper">
+          <NewsSection
+            soundEnabled={soundEnabled}
+            newsIndex={0}
+          />
+          <NewsSection
+            soundEnabled={soundEnabled}
+            newsIndex={1}
+          />
+          <NewsSection
+            soundEnabled={soundEnabled}
+            newsIndex={2}
+          />
+        </div>
+      </div>
 
-      {/* Upcoming Concerts Section */}
-      <ConcertsSection
-        imageSrc="/images/concerts-placeholder.jpg"
-        soundEnabled={soundEnabled}
-      />
+      {/* Upcoming Concerts Section - with shared background for multiple concert pages */}
+      <div className="concerts-container">
+        <div className="concerts-sticky-background" />
+        <div
+          className="concerts-sticky-image"
+          style={{ backgroundImage: "url(/images/upcoming_concerts.JPG)" }}
+        />
+        <div className="concerts-sticky-overlay" />
+        <div className="concerts-content-wrapper">
+          <ConcertsSection
+            soundEnabled={soundEnabled}
+            concertIndex={0}
+          />
+        </div>
+      </div>
 
-      {/* Biography Section */}
-      <BiographySection
-        imageSrc="/images/bio-placeholder.jpg"
-        soundEnabled={soundEnabled}
-      />
+      {/* Biography / Artistic Resume Section */}
+      <div className="biography-container">
+        <div className="biography-sticky-background" />
+        <div
+          className="biography-sticky-image"
+          style={{ backgroundImage: "url(/images/artist.JPG)" }}
+        />
+        <div className="biography-sticky-overlay" />
+        <div className="biography-content-wrapper">
+          <BiographySection
+            soundEnabled={soundEnabled}
+          />
+        </div>
+      </div>
 
       {/* Contact Section */}
       <ContactSection

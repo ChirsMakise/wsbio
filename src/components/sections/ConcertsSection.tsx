@@ -9,17 +9,23 @@ interface ConcertsSectionProps {
   imageSrc?: string;
   videoSrc?: string;
   soundEnabled?: boolean;
+  concertIndex?: number;
 }
 
 export default function ConcertsSection({
-  imageSrc = "/images/concerts-placeholder.jpg",
+  imageSrc,
   videoSrc,
   soundEnabled = false,
+  concertIndex = 0,
 }: ConcertsSectionProps) {
   const [isVisible, setIsVisible] = useState(false);
   const sectionRef = useRef<HTMLElement>(null);
   const videoRef = useRef<HTMLVideoElement>(null);
-  const [activeIndex, setActiveIndex] = useState(0);
+  const [activeIndex, setActiveIndex] = useState(concertIndex);
+
+  useEffect(() => {
+    setActiveIndex(concertIndex);
+  }, [concertIndex]);
 
   useEffect(() => {
     const observer = new IntersectionObserver(
@@ -46,7 +52,7 @@ export default function ConcertsSection({
 
   return (
     <section id="concerts" ref={sectionRef} className="scroll-section">
-      {/* Background */}
+      {/* Background - only render if imageSrc or videoSrc provided */}
       {videoSrc ? (
         <video
           ref={videoRef}
@@ -58,21 +64,19 @@ export default function ConcertsSection({
         >
           <source src={videoSrc} type="video/mp4" />
         </video>
-      ) : (
+      ) : imageSrc ? (
         <div
           className="image-background"
           style={{
-            backgroundImage: imageSrc && !imageSrc.includes('placeholder')
-              ? `url(${imageSrc})`
-              : 'linear-gradient(135deg, #1e3a5f 0%, #0d1b2a 50%, #0a0a0a 100%)',
+            backgroundImage: `url(${imageSrc})`,
             backgroundSize: "cover",
             backgroundPosition: "center",
           }}
         />
-      )}
+      ) : null}
 
-      {/* Overlay */}
-      <div className="section-overlay" />
+      {/* Overlay - only render if we have our own background */}
+      {(videoSrc || imageSrc) && <div className="section-overlay" />}
 
       {/* Content */}
       <div className="section-content min-h-screen">
