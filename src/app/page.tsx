@@ -11,6 +11,8 @@ import {
   ContactSection,
 } from "@/components/sections";
 
+const basePath = process.env.NEXT_PUBLIC_BASE_PATH || "";
+
 export default function Home() {
   const [soundEnabled, setSoundEnabled] = useState(false);
 
@@ -36,7 +38,7 @@ export default function Home() {
       <div className="news-container">
         <div
           className="news-sticky-background"
-          style={{ backgroundImage: "url(/images/news.JPG)" }}
+          style={{ backgroundImage: `url(${basePath}/images/news.JPG)` }}
         />
         <div className="news-sticky-overlay" />
         <div className="news-content-wrapper">
@@ -60,7 +62,7 @@ export default function Home() {
         <div className="concerts-sticky-background" />
         <div
           className="concerts-sticky-image"
-          style={{ backgroundImage: "url(/images/upcoming_concerts.JPG)" }}
+          style={{ backgroundImage: `url(${basePath}/images/upcoming_concerts.JPG)` }}
         />
         <div className="concerts-sticky-overlay" />
         <div className="concerts-content-wrapper">
@@ -76,7 +78,7 @@ export default function Home() {
         <div className="biography-sticky-background" />
         <div
           className="biography-sticky-image"
-          style={{ backgroundImage: "url(/images/artist.JPG)" }}
+          style={{ backgroundImage: `url(${basePath}/images/artist.JPG)` }}
         />
         <div className="biography-sticky-overlay" />
         <div className="biography-content-wrapper">
