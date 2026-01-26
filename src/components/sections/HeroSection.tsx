@@ -1,47 +1,123 @@
 "use client";
 
-import { useRef, useEffect, useState } from "react";
+import { useState, useEffect, useRef, useCallback } from "react";
 import ScrollIndicator from "../ScrollIndicator";
 import { heroContent } from "@/data/content";
 
+declare global {
+  interface Window {
+    YT: {
+      Player: new (
+        elementId: string,
+        config: {
+          videoId: string;
+          playerVars: Record<string, number | string>;
+          events: {
+            onReady?: (event: { target: YTPlayer }) => void;
+            onStateChange?: (event: { data: number }) => void;
+          };
+        }
+      ) => YTPlayer;
+    };
+    onYouTubeIframeAPIReady: () => void;
+  }
+}
+
+interface YTPlayer {
+  mute: () => void;
+  unMute: () => void;
+  playVideo: () => void;
+  isMuted: () => boolean;
+}
+
 interface HeroSectionProps {
-  videoSrc?: string;
+  youtubeVideoId?: string;
   imageSrc?: string;
   soundEnabled?: boolean;
+  onSoundToggle?: () => void;
 }
 
 export default function HeroSection({
-  videoSrc,
+  youtubeVideoId = "lB38Kqyc9XM",
   imageSrc = "/images/hero-placeholder.jpg",
   soundEnabled = false,
+  onSoundToggle,
 }: HeroSectionProps) {
-  const videoRef = useRef<HTMLVideoElement>(null);
   const [isLoaded, setIsLoaded] = useState(false);
+  const [playerReady, setPlayerReady] = useState(false);
+  const playerRef = useRef<YTPlayer | null>(null);
 
-  useEffect(() => {
-    if (videoRef.current) {
-      videoRef.current.muted = !soundEnabled;
+  const initPlayer = useCallback(() => {
+    if (window.YT && !playerRef.current) {
+      playerRef.current = new window.YT.Player("youtube-player", {
+        videoId: youtubeVideoId,
+        playerVars: {
+          autoplay: 1,
+          mute: 1,
+          loop: 1,
+          playlist: youtubeVideoId,
+          controls: 0,
+          showinfo: 0,
+          rel: 0,
+          modestbranding: 1,
+          playsinline: 1,
+          enablejsapi: 1,
+          disablekb: 1,
+          origin: typeof window !== "undefined" ? window.location.origin : "",
+        },
+        events: {
+          onReady: (event) => {
+            setPlayerReady(true);
+            event.target.mute();
+            event.target.playVideo();
+          },
+        },
+      });
     }
-  }, [soundEnabled]);
+  }, [youtubeVideoId]);
 
   useEffect(() => {
     setIsLoaded(true);
-  }, []);
+
+    if (!window.YT) {
+      const tag = document.createElement("script");
+      tag.src = "https://www.youtube.com/iframe_api";
+      const firstScriptTag = document.getElementsByTagName("script")[0];
+      firstScriptTag.parentNode?.insertBefore(tag, firstScriptTag);
+
+      window.onYouTubeIframeAPIReady = initPlayer;
+    } else {
+      initPlayer();
+    }
+
+    return () => {
+      window.onYouTubeIframeAPIReady = () => {};
+    };
+  }, [initPlayer]);
+
+  useEffect(() => {
+    if (playerReady && playerRef.current) {
+      if (soundEnabled) {
+        playerRef.current.unMute();
+      } else {
+        playerRef.current.mute();
+      }
+    }
+  }, [soundEnabled, playerReady]);
+
+  const handleListenToggle = () => {
+    if (onSoundToggle) {
+      onSoundToggle();
+    }
+  };
 
   return (
     <section id="home" className="scroll-section">
-      {/* Background */}
-      {videoSrc ? (
-        <video
-          ref={videoRef}
-          className="video-background"
-          autoPlay
-          loop
-          muted={!soundEnabled}
-          playsInline
-        >
-          <source src={videoSrc} type="video/mp4" />
-        </video>
+      {/* YouTube Video Background */}
+      {youtubeVideoId ? (
+        <div className="youtube-background">
+          <div id="youtube-player" />
+        </div>
       ) : (
         <div
           className="image-background"
@@ -79,14 +155,14 @@ export default function HeroSection({
           >
             {heroContent.subheadline}
           </p>
-          <a
-            href={heroContent.cta.link}
+          <button
+            onClick={handleListenToggle}
             className={`bracket-link text-white text-sm sm:text-base transition-all duration-1000 delay-500 ${
               isLoaded ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
             }`}
           >
-            [ {heroContent.cta.text.toUpperCase()} ]
-          </a>
+            [ {soundEnabled ? "MUTE" : heroContent.cta.text.toUpperCase()} ]
+          </button>
         </div>
 
         {/* Scroll Indicator */}

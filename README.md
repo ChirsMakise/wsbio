@@ -6,7 +6,8 @@ Official website for Steinway Artist Wenting Shi, built with Next.js 14, TypeScr
 
 - Full-screen scroll-snapping sections
 - Responsive design (desktop, tablet, mobile)
-- Video backgrounds with sound toggle
+- YouTube video background on hero section with sound toggle
+- Sticky background images that stay fixed while scrolling through multiple pages
 - Dynamic concert date handling (automatically categorizes upcoming vs past)
 - News and Concerts sections with navigation
 - Contact form via Formspree
@@ -88,3 +89,19 @@ All site content is managed in `src/data/content.ts`:
 - `allConcerts` - Concert listings (automatically sorted by date)
 - `bioContent` - Biography text
 - `contactInfo` - Contact form settings
+
+## Background Images
+
+Background images are stored in `public/images/`:
+
+- **Hero section**: Uses YouTube video embed (video ID configured in `HeroSection.tsx`)
+- **News sections**: `news.JPG` - shared sticky background across 3 news pages
+- **Concerts section**: `upcoming_concerts.JPG` - vertical image centered on desktop, hidden on mobile
+- **Biography section**: `artist.JPG` - vertical image on right side on desktop, hidden on mobile
+
+### Adding More Section Pages
+
+To add more pages to a section (e.g., more concerts):
+
+1. Update the container height in `globals.css` (e.g., `height: 200vh` for 2 pages)
+2. Add additional section components in `page.tsx`

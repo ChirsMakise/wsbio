@@ -21,7 +21,7 @@ export default function Header({ soundEnabled = false, onSoundToggle }: HeaderPr
             onClick={onSoundToggle}
             className="bracket-link text-white text-xs sm:text-sm"
           >
-            [ {soundEnabled ? "SOUND OFF" : "SOUND ON"} ]
+            [ {soundEnabled ? "SOUND ON" : "SOUND OFF"} ]
           </button>
 
           {/* Menu Toggle */}

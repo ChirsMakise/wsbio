@@ -13,7 +13,7 @@ interface NewsSectionProps {
 }
 
 export default function NewsSection({
-  imageSrc = "/images/news-placeholder.jpg",
+  imageSrc,
   videoSrc,
   soundEnabled = false,
   newsIndex = 0,
@@ -52,7 +52,7 @@ export default function NewsSection({
       ref={sectionRef}
       className="scroll-section"
     >
-      {/* Background */}
+      {/* Background - only render if imageSrc or videoSrc provided */}
       {videoSrc ? (
         <video
           ref={videoRef}
@@ -64,22 +64,19 @@ export default function NewsSection({
         >
           <source src={videoSrc} type="video/mp4" />
         </video>
-      ) : (
+      ) : imageSrc ? (
         <div
           className="image-background"
           style={{
-            backgroundImage:
-              imageSrc && !imageSrc.includes("placeholder")
-                ? `url(${imageSrc})`
-                : "linear-gradient(135deg, #2d1b4e 0%, #1a1a2e 50%, #0d0d1a 100%)",
+            backgroundImage: `url(${imageSrc})`,
             backgroundSize: "cover",
             backgroundPosition: "center",
           }}
         />
-      )}
+      ) : null}
 
-      {/* Overlay */}
-      <div className="section-overlay" />
+      {/* Overlay - only render if we have our own background */}
+      {(videoSrc || imageSrc) && <div className="section-overlay" />}
 
       {/* Content */}
       <div className="section-content min-h-screen">
