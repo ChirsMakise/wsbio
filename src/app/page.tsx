@@ -34,7 +34,7 @@ export default function Home() {
         onSoundToggle={handleSoundToggle}
       />
 
-      {/* News Sections - 3 scrollable pages with shared background */}
+      {/* News Section - single page with 2 featured items */}
       <div className="news-container">
         <div
           className="news-sticky-background"
@@ -42,26 +42,14 @@ export default function Home() {
         />
         <div className="news-sticky-overlay" />
         <div className="news-content-wrapper">
-          <NewsSection
-            soundEnabled={soundEnabled}
-            newsIndex={0}
-          />
-          <NewsSection
-            soundEnabled={soundEnabled}
-            newsIndex={1}
-          />
-          <NewsSection
-            soundEnabled={soundEnabled}
-            newsIndex={2}
-          />
+          <NewsSection soundEnabled={soundEnabled} />
         </div>
       </div>
 
       {/* Upcoming Concerts Section - with shared background for multiple concert pages */}
       <div className="concerts-container">
-        <div className="concerts-sticky-background" />
         <div
-          className="concerts-sticky-image"
+          className="concerts-sticky-background"
           style={{ backgroundImage: `url(${basePath}/images/upcoming_concerts.JPG)` }}
         />
         <div className="concerts-sticky-overlay" />
@@ -75,16 +63,13 @@ export default function Home() {
 
       {/* Biography / Artistic Resume Section */}
       <div className="biography-container">
-        <div className="biography-sticky-background" />
         <div
-          className="biography-sticky-image"
+          className="biography-sticky-background"
           style={{ backgroundImage: `url(${basePath}/images/artist.JPG)` }}
         />
         <div className="biography-sticky-overlay" />
         <div className="biography-content-wrapper">
-          <BiographySection
-            soundEnabled={soundEnabled}
-          />
+          <BiographySection soundEnabled={soundEnabled} />
         </div>
       </div>
 

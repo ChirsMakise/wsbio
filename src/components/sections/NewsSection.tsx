@@ -9,14 +9,12 @@ interface NewsSectionProps {
   imageSrc?: string;
   videoSrc?: string;
   soundEnabled?: boolean;
-  newsIndex?: number; // Which news item to display (0, 1, or 2)
 }
 
 export default function NewsSection({
   imageSrc,
   videoSrc,
   soundEnabled = false,
-  newsIndex = 0,
 }: NewsSectionProps) {
   const [isVisible, setIsVisible] = useState(false);
   const sectionRef = useRef<HTMLElement>(null);
@@ -43,12 +41,12 @@ export default function NewsSection({
     }
   }, [soundEnabled]);
 
-  const currentNews = newsItems[newsIndex];
-  const isFirstNews = newsIndex === 0;
+  // Get top 2 news items
+  const topNews = newsItems.slice(0, 2);
 
   return (
     <section
-      id={isFirstNews ? "news" : `news-${newsIndex}`}
+      id="news"
       ref={sectionRef}
       className="scroll-section"
     >
@@ -95,59 +93,40 @@ export default function NewsSection({
                 News
               </h2>
 
-              {/* Featured News */}
-              {currentNews && (
-                <div className="flex flex-col lg:flex-row justify-between gap-8 lg:gap-16">
-                  {/* News Info */}
-                  <div className="flex-1">
-                    <h3 className="text-2xl sm:text-3xl text-white mb-2">
-                      {currentNews.title}
+              {/* Two News Items */}
+              <div className="flex flex-col gap-8">
+                {topNews.map((news) => (
+                  <div key={news.id}>
+                    <h3 className="text-xl sm:text-2xl text-white mb-1">
+                      {news.title}
                     </h3>
-                    {currentNews.subtitle && (
-                      <p className="text-white/70 text-sm sm:text-base mb-4">
-                        {currentNews.subtitle}
+                    {news.subtitle && (
+                      <p className="text-white/70 text-sm sm:text-base mb-2">
+                        {news.subtitle}
                       </p>
                     )}
-                    {currentNews.description && (
-                      <p className="text-white/80 text-sm sm:text-base mb-6 max-w-xl">
-                        {currentNews.description}
+                    {news.description && (
+                      <p className="text-white/80 text-sm sm:text-base mb-4 max-w-xl">
+                        {news.description}
                       </p>
                     )}
-
                     <Link
-                      href={currentNews.link}
+                      href={news.link}
                       className="bracket-link text-white text-sm sm:text-base"
                     >
-                      [ {currentNews.cta?.toUpperCase() || "READ MORE"} ]
+                      [ {news.cta?.toUpperCase() || "READ MORE"} ]
                     </Link>
                   </div>
+                ))}
 
-                  {/* News Navigation */}
-                  <div className="flex flex-col gap-3 items-start">
-                    {newsItems.slice(0, 3).map((news, index) => (
-                      <a
-                        key={news.id}
-                        href={index === 0 ? "#news" : `#news-${index}`}
-                        className={`text-left transition-opacity duration-300 ${
-                          index === newsIndex
-                            ? "opacity-100"
-                            : "opacity-50 hover:opacity-75"
-                        }`}
-                      >
-                        <span className="text-white text-xs sm:text-sm block">
-                          {news.title}
-                        </span>
-                      </a>
-                    ))}
-                    <Link
-                      href="/news"
-                      className="bracket-link text-white text-xs mt-2"
-                    >
-                      [ VIEW ALL ]
-                    </Link>
-                  </div>
-                </div>
-              )}
+                {/* View All Link */}
+                <Link
+                  href="/news"
+                  className="bracket-link text-white text-sm mt-2"
+                >
+                  [ VIEW ALL ]
+                </Link>
+              </div>
             </div>
           </div>
         </div>
