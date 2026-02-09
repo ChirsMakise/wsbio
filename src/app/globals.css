@@ -136,8 +136,8 @@ body {
 /* News sections with shared sticky background */
 .news-container {
   position: relative;
-  /* Container spans exactly 3 viewport heights for 3 news sections */
-  height: 300vh;
+  /* Container spans 1 viewport height for single news section */
+  height: 100vh;
 }
 
 .news-container > .scroll-section {
@@ -158,7 +158,7 @@ body {
 
 @media (min-width: 768px) {
   .news-sticky-background {
-    background-position: center;
+    background-position: center bottom;
   }
 }
 
@@ -201,33 +201,15 @@ body {
   left: 0;
   width: 100%;
   height: 100vh;
-  background: linear-gradient(135deg, #1e3a5f 0%, #0d1b2a 50%, #0a0a0a 100%);
-  z-index: -3;
-  pointer-events: none;
-}
-
-.concerts-sticky-image {
-  position: sticky;
-  top: 0;
-  left: 50%;
-  width: 40%;
-  max-width: 500px;
-  height: 100vh;
-  margin-top: -100vh;
-  margin-left: auto;
-  margin-right: auto;
-  background-size: contain;
-  background-position: center;
-  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: 25% center;
   z-index: -2;
   pointer-events: none;
-  opacity: 0.7;
-  display: none;
 }
 
 @media (min-width: 768px) {
-  .concerts-sticky-image {
-    display: block;
+  .concerts-sticky-background {
+    background-position: center bottom;
   }
 }
 
@@ -269,33 +251,15 @@ body {
   left: 0;
   width: 100%;
   height: 100vh;
-  background: linear-gradient(135deg, #3d2914 0%, #1a1410 50%, #0a0a0a 100%);
-  z-index: -3;
-  pointer-events: none;
-}
-
-.biography-sticky-image {
-  position: sticky;
-  top: 0;
-  right: 0;
-  width: 35%;
-  max-width: 450px;
-  height: 100vh;
-  margin-top: -100vh;
-  margin-left: auto;
-  margin-right: 2rem;
-  background-size: contain;
-  background-position: center right;
-  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: 25% center;
   z-index: -2;
   pointer-events: none;
-  opacity: 0.6;
-  display: none;
 }
 
 @media (min-width: 768px) {
-  .biography-sticky-image {
-    display: block;
+  .biography-sticky-background {
+    background-position: center bottom;
   }
 }
 
