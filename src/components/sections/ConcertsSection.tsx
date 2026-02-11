@@ -9,23 +9,16 @@ interface ConcertsSectionProps {
   imageSrc?: string;
   videoSrc?: string;
   soundEnabled?: boolean;
-  concertIndex?: number;
 }
 
 export default function ConcertsSection({
   imageSrc,
   videoSrc,
   soundEnabled = false,
-  concertIndex = 0,
 }: ConcertsSectionProps) {
   const [isVisible, setIsVisible] = useState(false);
   const sectionRef = useRef<HTMLElement>(null);
   const videoRef = useRef<HTMLVideoElement>(null);
-  const [activeIndex, setActiveIndex] = useState(concertIndex);
-
-  useEffect(() => {
-    setActiveIndex(concertIndex);
-  }, [concertIndex]);
 
   useEffect(() => {
     const observer = new IntersectionObserver(
@@ -48,7 +41,7 @@ export default function ConcertsSection({
     }
   }, [soundEnabled]);
 
-  const nextConcert = upcomingConcerts[activeIndex];
+  const nextConcert = upcomingConcerts[0];
 
   return (
     <section id="concerts" ref={sectionRef} className="scroll-section">
@@ -97,9 +90,8 @@ export default function ConcertsSection({
 
               {/* Featured Concert */}
               {nextConcert && (
-                <div className="flex flex-col lg:flex-row justify-between gap-8 lg:gap-16">
-                  {/* Concert Info */}
-                  <div className="flex-1">
+                <div className="flex flex-col gap-8">
+                  <div>
                     <h3 className="text-2xl sm:text-3xl text-white mb-2">
                       {nextConcert.title}
                     </h3>
@@ -141,28 +133,13 @@ export default function ConcertsSection({
                     </a>
                   </div>
 
-                  {/* Concert Navigation */}
-                  <div className="flex flex-col gap-3 items-start">
-                    {upcomingConcerts.slice(0, 3).map((concert, index) => (
-                      <button
-                        key={concert.id}
-                        onClick={() => setActiveIndex(index)}
-                        className={`text-left transition-opacity duration-300 ${
-                          index === activeIndex ? "opacity-100" : "opacity-50 hover:opacity-75"
-                        }`}
-                      >
-                        <span className="text-white text-xs sm:text-sm block">
-                          {concert.date}
-                        </span>
-                      </button>
-                    ))}
-                    <Link
-                      href="/concerts"
-                      className="bracket-link text-white text-xs mt-2"
-                    >
-                      [ VIEW ALL ]
-                    </Link>
-                  </div>
+                  {/* View All Link */}
+                  <Link
+                    href="/concerts"
+                    className="bracket-link text-white text-sm mt-2"
+                  >
+                    [ VIEW ALL ]
+                  </Link>
                 </div>
               )}
             </div>
