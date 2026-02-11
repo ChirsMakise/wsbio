@@ -202,7 +202,7 @@ body {
   width: 100%;
   height: 100vh;
   background-size: cover;
-  background-position: 25% center;
+  background-position: 85% center;
   z-index: -2;
   pointer-events: none;
 }
@@ -252,7 +252,7 @@ body {
   width: 100%;
   height: 100vh;
   background-size: cover;
-  background-position: 25% center;
+  background-position: 75% center;
   z-index: -2;
   pointer-events: none;
 }
@@ -281,6 +281,56 @@ body {
 }
 
 .biography-content-wrapper {
+  position: relative;
+  margin-top: -100vh;
+}
+
+/* Contact section with sticky background */
+.contact-container {
+  position: relative;
+  height: 100vh;
+}
+
+.contact-container > .scroll-section {
+  background: transparent;
+}
+
+.contact-sticky-background {
+  position: sticky;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100vh;
+  background-size: cover;
+  background-position: 85% center;
+  z-index: -2;
+  pointer-events: none;
+}
+
+@media (min-width: 768px) {
+  .contact-sticky-background {
+    background-position: center bottom;
+  }
+}
+
+.contact-sticky-overlay {
+  position: sticky;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100vh;
+  margin-top: -100vh;
+  background: linear-gradient(
+    to bottom,
+    rgba(0, 0, 0, 0.3) 0%,
+    rgba(0, 0, 0, 0.1) 50%,
+    rgba(0, 0, 0, 0.4) 100%
+  );
+  z-index: -1;
+  pointer-events: none;
+}
+
+.contact-content-wrapper {
   position: relative;
   margin-top: -100vh;
 }

@@ -54,10 +54,7 @@ export default function Home() {
         />
         <div className="concerts-sticky-overlay" />
         <div className="concerts-content-wrapper">
-          <ConcertsSection
-            soundEnabled={soundEnabled}
-            concertIndex={0}
-          />
+          <ConcertsSection soundEnabled={soundEnabled} />
         </div>
       </div>
 
@@ -74,10 +71,16 @@ export default function Home() {
       </div>
 
       {/* Contact Section */}
-      <ContactSection
-        imageSrc="/images/contact-placeholder.jpg"
-        soundEnabled={soundEnabled}
-      />
+      <div className="contact-container">
+        <div
+          className="contact-sticky-background"
+          style={{ backgroundImage: `url(${basePath}/images/contact.jpg)` }}
+        />
+        <div className="contact-sticky-overlay" />
+        <div className="contact-content-wrapper">
+          <ContactSection />
+        </div>
+      </div>
     </main>
   );
 }

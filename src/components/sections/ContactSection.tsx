@@ -3,17 +3,7 @@
 import { useEffect, useState, useRef } from "react";
 import { contactInfo, siteConfig } from "@/data/content";
 
-interface ContactSectionProps {
-  imageSrc?: string;
-  videoSrc?: string;
-  soundEnabled?: boolean;
-}
-
-export default function ContactSection({
-  imageSrc = "/images/contact-placeholder.jpg",
-  videoSrc,
-  soundEnabled = false,
-}: ContactSectionProps) {
+export default function ContactSection() {
   const [isVisible, setIsVisible] = useState(false);
   const [formState, setFormState] = useState({
     firstName: "",
@@ -24,7 +14,6 @@ export default function ContactSection({
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitStatus, setSubmitStatus] = useState<"idle" | "success" | "error">("idle");
   const sectionRef = useRef<HTMLElement>(null);
-  const videoRef = useRef<HTMLVideoElement>(null);
 
   useEffect(() => {
     const observer = new IntersectionObserver(
@@ -40,12 +29,6 @@ export default function ContactSection({
 
     return () => observer.disconnect();
   }, []);
-
-  useEffect(() => {
-    if (videoRef.current) {
-      videoRef.current.muted = !soundEnabled;
-    }
-  }, [soundEnabled]);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -79,34 +62,6 @@ export default function ContactSection({
 
   return (
     <section id="contact" ref={sectionRef} className="scroll-section">
-      {/* Background */}
-      {videoSrc ? (
-        <video
-          ref={videoRef}
-          className="video-background"
-          autoPlay
-          loop
-          muted={!soundEnabled}
-          playsInline
-        >
-          <source src={videoSrc} type="video/mp4" />
-        </video>
-      ) : (
-        <div
-          className="image-background"
-          style={{
-            backgroundImage: imageSrc && !imageSrc.includes('placeholder')
-              ? `url(${imageSrc})`
-              : 'linear-gradient(135deg, #141414 0%, #0a0a0a 50%, #000000 100%)',
-            backgroundSize: "cover",
-            backgroundPosition: "center",
-          }}
-        />
-      )}
-
-      {/* Overlay */}
-      <div className="section-overlay" />
-
       {/* Content */}
       <div className="section-content min-h-screen">
         {/* Spacer for header */}
