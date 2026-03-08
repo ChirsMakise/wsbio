@@ -45,8 +45,8 @@ export default async function ConcertDetailPage({
       </header>
 
       <div className="pt-24 pb-8 px-4 sm:px-8">
-        <article className="min-h-[calc(100vh-8rem)] max-w-6xl mx-auto flex flex-col">
-          <div className="flex-1 py-6">
+        <article className="h-[calc(100vh-8rem)] max-w-6xl mx-auto flex flex-col">
+          <div className="flex-1 overflow-y-auto pr-1 py-6">
             {showHeaderImage && (
               <div
                 className="w-full h-72 sm:h-96 lg:h-[28rem] rounded-md mb-8 bg-contain bg-center bg-no-repeat bg-white/5"
@@ -99,7 +99,7 @@ export default async function ConcertDetailPage({
             )}
           </div>
 
-          <div className="flex-none border-t border-white/20 pt-6 mt-4">
+          <div className="flex-none border-t border-white/20 pt-6 mt-4 bg-black">
             <div className="flex items-center justify-between mb-4 text-sm">
               {prevConcert ? (
                 <Link
