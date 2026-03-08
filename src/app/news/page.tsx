@@ -5,7 +5,13 @@ import Link from "next/link";
 
 export default function NewsPage() {
   return (
-    <main className="min-h-screen bg-black text-white">
+    <main className="relative min-h-screen bg-black text-white">
+      <div
+        className="fixed inset-0 bg-cover bg-center md:bg-right bg-no-repeat"
+        style={{ backgroundImage: "url('/images/news_list.jpg')" }}
+      />
+      <div className="fixed inset-0 bg-black/65" />
+
       {/* Header */}
       <header className="fixed top-0 left-0 right-0 z-50 bg-black/80 backdrop-blur-sm">
         <div className="flex items-center justify-between px-4 sm:px-8 py-4">
@@ -18,7 +24,7 @@ export default function NewsPage() {
       </header>
 
       {/* Content */}
-      <div className="pt-24 pb-16 px-4 sm:px-8 max-w-4xl mx-auto">
+      <div className="relative z-10 pt-24 pb-16 px-4 sm:px-8 max-w-4xl mx-auto">
         <h2 className="text-2xl sm:text-3xl font-light mb-8 text-white/90">
           News & Announcements
         </h2>
