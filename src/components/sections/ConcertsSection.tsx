@@ -3,7 +3,7 @@
 import { useEffect, useState, useRef } from "react";
 import Link from "next/link";
 import ScrollIndicator from "../ScrollIndicator";
-import { upcomingConcerts } from "@/data/content";
+import { getPastConcerts, getUpcomingConcerts } from "@/data/content";
 
 interface ConcertsSectionProps {
   imageSrc?: string;
@@ -41,7 +41,11 @@ export default function ConcertsSection({
     }
   }, [soundEnabled]);
 
+  const upcomingConcerts = getUpcomingConcerts();
+  const pastConcerts = getPastConcerts();
   const nextConcert = upcomingConcerts[0];
+  const featuredConcert = nextConcert ?? pastConcerts[0];
+  const featuredHeading = nextConcert ? "Upcoming Concerts" : "Recent Concert";
 
   return (
     <section id="concerts" ref={sectionRef} className="scroll-section">
@@ -85,27 +89,27 @@ export default function ConcertsSection({
               }`}
             >
               <h2 className="text-3xl sm:text-4xl lg:text-5xl font-light text-white mb-8">
-                Upcoming Concerts
+                {featuredHeading}
               </h2>
 
-              {/* Featured Concert */}
-              {nextConcert && (
-                <div className="flex flex-col gap-8">
+              <div className="flex flex-col gap-8">
+                {/* Featured Concert */}
+                {featuredConcert && (
                   <div>
                     <h3 className="text-2xl sm:text-3xl text-white mb-2">
-                      {nextConcert.title}
+                      {featuredConcert.title}
                     </h3>
                     <p className="text-white/70 text-sm sm:text-base mb-1">
-                      {nextConcert.date}
+                      {featuredConcert.date}
                     </p>
                     <p className="text-white/70 text-sm sm:text-base mb-4">
-                      {nextConcert.time}
+                      {featuredConcert.time}
                     </p>
                     <p className="text-white/80 text-sm sm:text-base mb-2">
-                      {nextConcert.venue}
+                      {featuredConcert.venue}
                     </p>
                     <p className="text-white/60 text-sm mb-6">
-                      {nextConcert.address}
+                      {featuredConcert.address}
                     </p>
 
                     {/* Program Preview */}
@@ -114,34 +118,35 @@ export default function ConcertsSection({
                         Program
                       </p>
                       <ul className="text-white/70 text-sm space-y-1">
-                        {nextConcert.program.slice(0, 3).map((item, i) => (
+                        {featuredConcert.program.slice(0, 3).map((item, i) => (
                           <li key={i}>{item}</li>
                         ))}
-                        {nextConcert.program.length > 3 && (
+                        {featuredConcert.program.length > 3 && (
                           <li className="text-white/50">...</li>
                         )}
                       </ul>
                     </div>
 
-                    <a
-                      href={nextConcert.ticketLink}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="bracket-link text-white text-sm sm:text-base"
-                    >
-                      [ GET TICKETS ]
-                    </a>
+                    {featuredConcert.ticketLink && (
+                      <a
+                        href={featuredConcert.ticketLink}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="bracket-link text-white text-sm sm:text-base"
+                      >
+                        [ {nextConcert ? "GET TICKETS" : "VIEW DETAILS"} ]
+                      </a>
+                    )}
                   </div>
-
-                  {/* View All Link */}
-                  <Link
-                    href="/concerts"
-                    className="bracket-link text-white text-sm mt-2"
-                  >
-                    [ VIEW ALL ]
-                  </Link>
-                </div>
-              )}
+                )}
+                {/* View All Link */}
+                <Link
+                  href="/concerts"
+                  className="bracket-link text-white text-sm mt-2"
+                >
+                  [ VIEW ALL ]
+                </Link>
+              </div>
             </div>
           </div>
         </div>

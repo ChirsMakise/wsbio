@@ -38,7 +38,7 @@ export default function Home() {
       <div className="news-container">
         <div
           className="news-sticky-background"
-          style={{ backgroundImage: `url(${basePath}/images/news.JPG)` }}
+          style={{ backgroundImage: `url(${basePath}/images/news.jpg)` }}
         />
         <div className="news-sticky-overlay" />
         <div className="news-content-wrapper">
@@ -50,7 +50,7 @@ export default function Home() {
       <div className="concerts-container">
         <div
           className="concerts-sticky-background"
-          style={{ backgroundImage: `url(${basePath}/images/upcoming_concerts.JPG)` }}
+          style={{ backgroundImage: `url(${basePath}/images/upcoming_concerts.jpg)` }}
         />
         <div className="concerts-sticky-overlay" />
         <div className="concerts-content-wrapper">
@@ -62,7 +62,7 @@ export default function Home() {
       <div className="biography-container">
         <div
           className="biography-sticky-background"
-          style={{ backgroundImage: `url(${basePath}/images/artist.JPG)` }}
+          style={{ backgroundImage: `url(${basePath}/images/artist.jpg)` }}
         />
         <div className="biography-sticky-overlay" />
         <div className="biography-content-wrapper">

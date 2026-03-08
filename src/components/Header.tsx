@@ -18,16 +18,20 @@ export default function Header({ soundEnabled = false, onSoundToggle }: HeaderPr
         <div className="flex justify-between items-center">
           {/* Sound Toggle */}
           <button
+            type="button"
             onClick={onSoundToggle}
             className="bracket-link text-white text-xs sm:text-sm"
+            aria-label={soundEnabled ? "Disable sound" : "Enable sound"}
           >
             [ {soundEnabled ? "SOUND ON" : "SOUND OFF"} ]
           </button>
 
           {/* Menu Toggle */}
           <button
+            type="button"
             onClick={() => setMenuOpen(true)}
             className="bracket-link text-white text-xs sm:text-sm"
+            aria-label="Open menu"
           >
             [ MENU ]
           </button>
@@ -47,8 +51,10 @@ export default function Header({ soundEnabled = false, onSoundToggle }: HeaderPr
               {siteConfig.name}
             </span>
             <button
+              type="button"
               onClick={() => setMenuOpen(false)}
               className="bracket-link text-white text-xs sm:text-sm"
+              aria-label="Close menu"
             >
               [ CLOSE ]
             </button>
@@ -119,6 +125,27 @@ export default function Header({ soundEnabled = false, onSoundToggle }: HeaderPr
             >
               <svg className="w-5 h-5 sm:w-6 sm:h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+              </svg>
+            </a>
+            <a
+              href={siteConfig.socialLinks.youku}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-white hover:opacity-70 transition-opacity"
+              aria-label="Youku"
+            >
+              <svg
+                className="w-5 h-5 sm:w-6 sm:h-6"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M10 13a5 5 0 007.07 0l2.83-2.83a5 5 0 10-7.07-7.07L11.4 4.52M14 11a5 5 0 00-7.07 0L4.1 13.83a5 5 0 107.07 7.07l1.41-1.41"
+                />
               </svg>
             </a>
           </div>

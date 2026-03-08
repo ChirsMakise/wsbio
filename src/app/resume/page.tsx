@@ -2,7 +2,13 @@ import Link from "next/link";
 
 export default function ResumePage() {
   return (
-    <main className="min-h-screen bg-black text-white">
+    <main className="relative min-h-screen bg-black text-white">
+      <div
+        className="fixed inset-0 bg-cover bg-center md:bg-right bg-no-repeat"
+        style={{ backgroundImage: "url('/images/resume.jpg')" }}
+      />
+      <div className="fixed inset-0 bg-black/70" />
+
       {/* Header */}
       <header className="fixed top-0 left-0 right-0 z-50 bg-black/80 backdrop-blur-sm">
         <div className="flex items-center justify-between px-4 sm:px-8 py-4">
@@ -18,7 +24,7 @@ export default function ResumePage() {
       </header>
 
       {/* Content */}
-      <div className="pt-24 pb-16 px-4 sm:px-8 max-w-4xl mx-auto">
+      <div className="relative z-10 pt-24 pb-16 px-4 sm:px-8 max-w-4xl mx-auto">
         {/* Hero Image Placeholder - you can add image later */}
         <div className="mb-12">
           {/* Image will go here */}
