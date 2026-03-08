@@ -88,9 +88,9 @@ export default function ConcertsSection({
                 Upcoming Concerts
               </h2>
 
-              {/* Featured Concert */}
-              {nextConcert && (
-                <div className="flex flex-col gap-8">
+              <div className="flex flex-col gap-8">
+                {/* Featured Concert */}
+                {nextConcert && (
                   <div>
                     <h3 className="text-2xl sm:text-3xl text-white mb-2">
                       {nextConcert.title}
@@ -132,16 +132,15 @@ export default function ConcertsSection({
                       [ GET TICKETS ]
                     </a>
                   </div>
-
-                  {/* View All Link */}
-                  <Link
-                    href="/concerts"
-                    className="bracket-link text-white text-sm mt-2"
-                  >
-                    [ VIEW ALL ]
-                  </Link>
-                </div>
-              )}
+                )}
+                {/* View All Link */}
+                <Link
+                  href="/concerts"
+                  className="bracket-link text-white text-sm mt-2"
+                >
+                  [ VIEW ALL ]
+                </Link>
+              </div>
             </div>
           </div>
         </div>
