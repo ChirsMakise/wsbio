@@ -63,11 +63,17 @@ export default function ConcertsPage() {
                     href={concert.ticketLink}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="inline-block text-white text-sm hover:opacity-70 transition-opacity"
+                    className="inline-block text-white text-sm hover:opacity-70 transition-opacity mr-6"
                   >
                     [ GET TICKETS ]
                   </a>
                 )}
+                <Link
+                  href={`/concerts/${concert.id}`}
+                  className="inline-block text-white text-sm hover:opacity-70 transition-opacity"
+                >
+                  [ VIEW DETAILS ]
+                </Link>
               </article>
             ))}
           </div>
@@ -92,6 +98,12 @@ export default function ConcertsPage() {
                 {concert.address && (
                   <p className="text-white/40 text-sm">{concert.address}</p>
                 )}
+                <Link
+                  href={`/concerts/${concert.id}`}
+                  className="inline-block text-white text-sm hover:opacity-70 transition-opacity mt-3"
+                >
+                  [ VIEW DETAILS ]
+                </Link>
               </article>
             ))}
           </div>

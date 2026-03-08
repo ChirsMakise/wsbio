@@ -95,9 +95,9 @@ All site content is managed in `src/data/content.ts`:
 Background images are stored in `public/images/`:
 
 - **Hero section**: Uses YouTube video embed (video ID configured in `HeroSection.tsx`)
-- **News sections**: `news.JPG` - shared sticky background across 3 news pages
-- **Concerts section**: `upcoming_concerts.JPG` - vertical image centered on desktop, hidden on mobile
-- **Biography section**: `artist.JPG` - vertical image on right side on desktop, hidden on mobile
+- **News sections**: `news.jpg` - shared sticky background across 3 news pages
+- **Concerts section**: `upcoming_concerts.jpg` - vertical image centered on desktop, hidden on mobile
+- **Biography section**: `artist.jpg` - vertical image on right side on desktop, hidden on mobile
 
 ### Adding More Section Pages
 
