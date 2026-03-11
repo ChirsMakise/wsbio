@@ -35,7 +35,7 @@ export default async function NewsDetailPage({ params }: NewsDetailPageProps) {
   const usesSpecialBackground = Boolean(specialBackgroundImage);
 
   return (
-    <main className="relative min-h-screen bg-black text-white">
+    <main className="relative h-screen overflow-hidden bg-black text-white">
       {usesSpecialBackground && (
         <>
           <div
@@ -62,7 +62,7 @@ export default async function NewsDetailPage({ params }: NewsDetailPageProps) {
       </header>
 
       {/* Content */}
-      <div className="relative z-10 pt-24 pb-8 px-4 sm:px-8">
+      <div className="relative z-10 pt-24 pb-8 px-4 sm:px-8 h-full">
         <article className="h-[calc(100vh-8rem)] max-w-6xl mx-auto flex flex-col">
           <div className="flex-1 overflow-y-auto pr-1 py-6">
             {news.subtitle && (
@@ -153,32 +153,32 @@ export default async function NewsDetailPage({ params }: NewsDetailPageProps) {
           >
             <div className="flex items-center justify-between mb-4 text-sm">
               {prevNews ? (
-                <Link
+                <a
                   href={prevNews.link}
                   className="text-white hover:opacity-70 transition-opacity"
                 >
                   [ LAST ]
-                </Link>
+                </a>
               ) : (
                 <span />
               )}
               {nextNews ? (
-                <Link
+                <a
                   href={nextNews.link}
                   className="text-white hover:opacity-70 transition-opacity"
                 >
                   [ NEXT ]
-                </Link>
+                </a>
               ) : (
                 <span />
               )}
             </div>
-            <Link
+            <a
               href="/news"
               className="text-white text-sm hover:opacity-70 transition-opacity"
             >
               [ VIEW ALL NEWS ]
-            </Link>
+            </a>
           </div>
         </article>
       </div>
