@@ -30,7 +30,7 @@ export default async function ConcertDetailPage({
   const showHeaderImage = concert.image.endsWith(".webp");
 
   return (
-    <main className="h-screen overflow-hidden bg-black text-white">
+    <main className="h-dvh overflow-hidden bg-black text-white">
       <header className="fixed top-0 left-0 right-0 z-50 bg-black/80 backdrop-blur-sm">
         <div className="flex items-center justify-between px-4 sm:px-8 py-4">
           <Link
@@ -45,7 +45,7 @@ export default async function ConcertDetailPage({
       </header>
 
       <div className="pt-24 pb-8 px-4 sm:px-8 h-full">
-        <article className="h-[calc(100vh-8rem)] max-w-6xl mx-auto flex flex-col">
+        <article className="h-[calc(100dvh-8rem)] max-w-6xl mx-auto flex flex-col">
           <div className="flex-1 overflow-y-auto pr-1 py-6">
             {showHeaderImage && (
               <div
@@ -99,7 +99,9 @@ export default async function ConcertDetailPage({
             )}
           </div>
 
-          <div className="flex-none border-t border-white/20 pt-6 mt-4 bg-black">
+          <div
+            className="flex-none border-t border-white/20 pt-6 mt-4 bg-black safe-bottom-nav"
+          >
             <div className="flex items-center justify-between mb-4 text-sm">
               {prevConcert ? (
                 <a
