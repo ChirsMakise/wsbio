@@ -35,7 +35,7 @@ export default async function NewsDetailPage({ params }: NewsDetailPageProps) {
   const usesSpecialBackground = Boolean(specialBackgroundImage);
 
   return (
-    <main className="relative h-screen overflow-hidden bg-black text-white">
+    <main className="relative h-dvh overflow-hidden bg-black text-white">
       {usesSpecialBackground && (
         <>
           <div
@@ -63,7 +63,7 @@ export default async function NewsDetailPage({ params }: NewsDetailPageProps) {
 
       {/* Content */}
       <div className="relative z-10 pt-24 pb-8 px-4 sm:px-8 h-full">
-        <article className="h-[calc(100vh-8rem)] max-w-6xl mx-auto flex flex-col">
+        <article className="h-[calc(100dvh-8rem)] max-w-6xl mx-auto flex flex-col">
           <div className="flex-1 overflow-y-auto pr-1 py-6">
             {news.subtitle && (
               <p className="text-white/50 text-sm mb-2">{news.subtitle}</p>
@@ -149,7 +149,7 @@ export default async function NewsDetailPage({ params }: NewsDetailPageProps) {
           <div
             className={`flex-none border-t border-white/20 pt-6 mt-4 ${
               usesSpecialBackground ? "" : "bg-black"
-            }`}
+            } safe-bottom-nav`}
           >
             <div className="flex items-center justify-between mb-4 text-sm">
               {prevNews ? (

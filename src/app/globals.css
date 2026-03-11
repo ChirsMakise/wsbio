@@ -235,6 +235,17 @@ body {
   margin-top: -100vh;
 }
 
+/* iOS/Chrome bottom bar compensation for mobile only */
+.safe-bottom-nav {
+  padding-bottom: calc(env(safe-area-inset-bottom) + 0.75rem);
+}
+
+@media (min-width: 640px) {
+  .safe-bottom-nav {
+    padding-bottom: 0;
+  }
+}
+
 /* Biography / Artistic Resume section with sticky background */
 .biography-container {
   position: relative;
