@@ -79,7 +79,7 @@ export default function NewsSection({
       {/* Content */}
       <div className="section-content min-h-screen">
         {/* Spacer for header */}
-        <div className="h-16" />
+        <div className="h-6 sm:h-16" />
 
         {/* Main Content */}
         <div className="flex-1 flex items-center">
