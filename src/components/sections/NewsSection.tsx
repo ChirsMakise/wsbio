@@ -79,10 +79,10 @@ export default function NewsSection({
       {/* Content */}
       <div className="section-content min-h-screen">
         {/* Spacer for header */}
-        <div className="h-10 sm:h-16" />
+        <div className="h-6 sm:h-16" />
 
         {/* Main Content */}
-        <div className="flex-1 flex items-start sm:items-center pt-3 sm:pt-0">
+        <div className="flex-1 flex items-center">
           <div className="w-full px-2 sm:px-4">
             <div
               className={`transition-all duration-700 ${
