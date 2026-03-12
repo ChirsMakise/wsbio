@@ -77,7 +77,7 @@ export default function NewsSection({
       {(videoSrc || imageSrc) && <div className="section-overlay" />}
 
       {/* Content */}
-      <div className="section-content min-h-screen">
+      <div className="section-content">
         {/* Spacer for header */}
         <div className="h-6 sm:h-16" />
 
