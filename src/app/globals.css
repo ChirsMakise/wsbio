@@ -65,7 +65,7 @@ body {
   left: 50%;
   transform: translate(-50%, -50%);
   width: 100vw;
-  height: 100vh;
+  height: var(--app-height);
   z-index: -1;
   pointer-events: none;
   overflow: hidden;
@@ -78,8 +78,8 @@ body {
   transform: translate(-25%, -50%);
   width: 100vw;
   height: 56.25vw; /* 16:9 aspect ratio */
-  min-height: 100vh;
-  min-width: 177.78vh; /* 16:9 aspect ratio */
+  min-height: var(--app-height);
+  min-width: calc(var(--app-height) * 1.7778); /* 16:9 aspect ratio */
 }
 
 @media (min-width: 768px) {
