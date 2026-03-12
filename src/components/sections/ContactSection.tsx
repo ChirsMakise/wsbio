@@ -63,7 +63,7 @@ export default function ContactSection() {
   return (
     <section id="contact" ref={sectionRef} className="scroll-section">
       {/* Content */}
-      <div className="section-content min-h-screen">
+      <div className="section-content">
         {/* Spacer for header */}
         <div className="h-16" />
 

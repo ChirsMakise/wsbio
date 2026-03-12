@@ -5,6 +5,13 @@
 :root {
   --background: #000000;
   --foreground: #ffffff;
+  --app-height: 100vh;
+}
+
+@supports (height: 100dvh) {
+  :root {
+    --app-height: 100dvh;
+  }
 }
 
 * {
@@ -23,7 +30,7 @@ body {
 
 /* Scroll snap container */
 .scroll-container {
-  height: 100vh;
+  height: var(--app-height);
   overflow-y: auto;
   scroll-snap-type: y mandatory;
   scroll-behavior: smooth;
@@ -31,7 +38,7 @@ body {
 
 /* Each section snaps */
 .scroll-section {
-  min-height: 100vh;
+  min-height: var(--app-height);
   scroll-snap-align: start;
   scroll-snap-stop: always;
   position: relative;
@@ -115,6 +122,7 @@ body {
   z-index: 1;
   padding: 2rem;
   width: 100%;
+  min-height: var(--app-height);
   height: 100%;
   display: flex;
   flex-direction: column;
@@ -137,7 +145,7 @@ body {
 .news-container {
   position: relative;
   /* Container spans 1 viewport height for single news section */
-  height: 100vh;
+  height: var(--app-height);
 }
 
 .news-container > .scroll-section {
@@ -149,7 +157,7 @@ body {
   top: 0;
   left: 0;
   width: 100%;
-  height: 100vh;
+  height: var(--app-height);
   background-size: cover;
   background-position: 25% center;
   z-index: -2;
@@ -167,8 +175,8 @@ body {
   top: 0;
   left: 0;
   width: 100%;
-  height: 100vh;
-  margin-top: -100vh;
+  height: var(--app-height);
+  margin-top: calc(-1 * var(--app-height));
   background: linear-gradient(
     to bottom,
     rgba(0, 0, 0, 0.3) 0%,
@@ -181,14 +189,14 @@ body {
 
 .news-content-wrapper {
   position: relative;
-  margin-top: -100vh;
+  margin-top: calc(-1 * var(--app-height));
 }
 
 /* Concerts sections with shared sticky background */
 .concerts-container {
   position: relative;
   /* Container spans 1 viewport height for now (increase when more concerts added) */
-  height: 100vh;
+  height: var(--app-height);
 }
 
 .concerts-container > .scroll-section {
@@ -200,7 +208,7 @@ body {
   top: 0;
   left: 0;
   width: 100%;
-  height: 100vh;
+  height: var(--app-height);
   background-size: cover;
   background-position: 85% center;
   z-index: -2;
@@ -218,8 +226,8 @@ body {
   top: 0;
   left: 0;
   width: 100%;
-  height: 100vh;
-  margin-top: -100vh;
+  height: var(--app-height);
+  margin-top: calc(-1 * var(--app-height));
   background: linear-gradient(
     to bottom,
     rgba(0, 0, 0, 0.3) 0%,
@@ -232,7 +240,7 @@ body {
 
 .concerts-content-wrapper {
   position: relative;
-  margin-top: -100vh;
+  margin-top: calc(-1 * var(--app-height));
 }
 
 /* iOS/Chrome bottom bar compensation for mobile only */
@@ -249,7 +257,7 @@ body {
 /* Biography / Artistic Resume section with sticky background */
 .biography-container {
   position: relative;
-  height: 100vh;
+  height: var(--app-height);
 }
 
 .biography-container > .scroll-section {
@@ -261,7 +269,7 @@ body {
   top: 0;
   left: 0;
   width: 100%;
-  height: 100vh;
+  height: var(--app-height);
   background-size: cover;
   background-position: 75% center;
   z-index: -2;
@@ -279,8 +287,8 @@ body {
   top: 0;
   left: 0;
   width: 100%;
-  height: 100vh;
-  margin-top: -100vh;
+  height: var(--app-height);
+  margin-top: calc(-1 * var(--app-height));
   background: linear-gradient(
     to bottom,
     rgba(0, 0, 0, 0.3) 0%,
@@ -293,13 +301,13 @@ body {
 
 .biography-content-wrapper {
   position: relative;
-  margin-top: -100vh;
+  margin-top: calc(-1 * var(--app-height));
 }
 
 /* Contact section with sticky background */
 .contact-container {
   position: relative;
-  height: 100vh;
+  height: var(--app-height);
 }
 
 .contact-container > .scroll-section {
@@ -311,7 +319,7 @@ body {
   top: 0;
   left: 0;
   width: 100%;
-  height: 100vh;
+  height: var(--app-height);
   background-size: cover;
   background-position: 85% center;
   z-index: -2;
@@ -329,8 +337,8 @@ body {
   top: 0;
   left: 0;
   width: 100%;
-  height: 100vh;
-  margin-top: -100vh;
+  height: var(--app-height);
+  margin-top: calc(-1 * var(--app-height));
   background: linear-gradient(
     to bottom,
     rgba(0, 0, 0, 0.3) 0%,
@@ -343,7 +351,17 @@ body {
 
 .contact-content-wrapper {
   position: relative;
-  margin-top: -100vh;
+  margin-top: calc(-1 * var(--app-height));
+}
+
+.scroll-indicator {
+  bottom: calc(env(safe-area-inset-bottom) + 5rem);
+}
+
+@media (min-width: 640px) {
+  .scroll-indicator {
+    bottom: 6rem;
+  }
 }
 
 /* Hide scrollbar but keep functionality */

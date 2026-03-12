@@ -135,7 +135,7 @@ export default function HeroSection({
       <div className="section-overlay" />
 
       {/* Content */}
-      <div className="section-content min-h-screen">
+      <div className="section-content">
         {/* Spacer for header */}
         <div className="h-16" />
 
