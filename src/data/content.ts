@@ -23,21 +23,19 @@ export const heroContent = {
 };
 
 export const bioContent = {
-  short: `Steinway Artist Wenting Shi has performed extensively across the globe, captivating audiences in numerous countries. She is a prizewinner of several prestigious international piano competitions. Her educational background includes esteemed institutions such as The Juilliard School, Yale School of Music, Universität für Musik und darstellende Kunst Wien, Universität der Künste Berlin, and Northwestern University's Bienen School of Music.`,
+  short: `Steinway Artist Wenting Shi is an internationally acclaimed pianist known for her refined artistry and distinctive musical voice. Shaped by a rich artistic background spanning Asia, Europe, and the United States, her performances bring depth, color, and narrative to the concert stage.`,
 
-  full: `Steinway Artist Wenting Shi has received numerous prestigious awards and accolades throughout her career. In April 2023, she won First Prize in the Luminarts Cultural Foundation Fellowship Award in the USA, earning the distinction of Fellow Artist. Her other notable achievements include First Prize at the Thaviu-Isaak Piano Competition (USA) in April 2023, Second Prize at the Berlin Artur Schnabel Piano Competition in June 2022, and the Silver Prize at the WFIMC Member Competition, 5th Hong Kong International Piano Competition, in 2019.
+  full: `Steinway Artist Wenting Shi is an internationally recognized pianist whose artistry has been honored with numerous prestigious awards. She is a First Prize winner of the Luminarts Cultural Foundation Fellowship Award (USA), receiving the title of Fellow Artist. Additional distinctions include First Prize at the Thaviu-Isaak Piano Competition (USA), as well as prizes at the Artur Schnabel Piano Competition (Berlin), the Hong Kong International Piano Competition (WFIMC), the Serge & Olga Koussevitzky Young Artist Awards Piano Competition, and the San Jose International Piano Competition. She is also a recipient of the Georges Cziffra Prize, awarded by the Cziffra Foundation in Austria.
 
-Wenting has an track record of winning numerous prizes worldwide, which includes the Serge & Olga Koussevitzky Young Artist Awards Piano Competition (USA 2018), the CT Young Artist Piano Competition (USA 2018), the Georges Cziffra Prize presented by the Cziffra Stiftung of Austria (Austria 2017), both chamber and solo prizes at the Virtuoso & Belcanto International Competition (Italy 2018), the San Jose International Piano Competition (USA 2016), the International Toronto Piano Competition (Canada 2015), the 12th International Piano Competition by Taipei Chopin Foundation (Chinese Taipei 2008), and the grand prize at the 13th Bucharest International Piano Competition (Romania 2006).
+Wenting’s academic and artistic training reflects a deep commitment to musical excellence. She earned her Bachelor’s degree with the Arthur Rubinstein Prize for Academic and Artistic Achievement, followed by graduate studies at The Juilliard School and the Yale School of Music. Firmly grounded in the German-Austrian tradition, she graduated with highest distinction (Auszeichnung / With Distinction) from the University of Music and Performing Arts Vienna and earned the prestigious Konzertexamen from the Berlin University of the Arts, the highest performance degree in Germany. She holds a Doctor of Musical Arts degree from Northwestern University’s Bienen School of Music.
 
-Wenting made her orchestral debut performing Liszt Piano Concerto No. 1 with the Shanghai Conservatory Orchestra after winning the Silver Prize in the 2nd National Concerto Competition for Young Musicians in Beijing (China 2005). Her orchestra performances include works such as Liszt Piano Concerto No. 1 with the Kaohsiung Symphony Orchestra and Shanghai Symphony Orchestra, Chopin Piano Concerto No. 1 with the National Symphony Orchestra of Chinese Taipei, Beethoven Piano Concerto No. 3 with the Shenzhen Symphony Orchestra, Prokofiev Piano Concerto No. 2 with Hong Kong Philharmonic Orchestra, and Rachmaninoff Piano Concerto No. 2 with Hradec Králové Philharmonic Orchestra.
+As an international recitalist, Wenting has appeared with leading orchestras including the Shanghai Symphony Orchestra, Shenzhen Symphony Orchestra, Hong Kong Symphony Orchestra, and the Hradec Králové Philharmonic Orchestra. Her performances have taken place in major venues worldwide, including Alice Tully Hall (New York), Salle Gaveau (Paris), the Royal Museum of Fine Arts of Belgium (Brussels), Hong Kong City Hall, and the Musikverein (Vienna).
 
-As an international recitalist, Wenting has been invited to perform solo concerts across a multitude of countries and regions, including the USA, Canada, Germany, Austria, Belgium, Italy, Spain, France, Finland, Romania, Switzerland, the UK, Russia, South Korea, and China. She has been distinguished by captivating solo recitals hosted at renowned global music venues, including Alice Tully Hall in New York, Salle Gaveau in Paris, the Royal Museum of Fine Arts of Belgium, Hong Kong City Hall, Musikverein and ORF Radio Kulturhaus in Vienna, and the Shanghai Grand Theatre, among others.
+In addition to her performance career, Wenting is active as a pedagogue, collaborator, and cultural ambassador. She has served as a jury member for the Pearl River · Kayserburg International Youth Piano Competition (2021, 2023), contributed to a commemorative album project with the University of Music and Performing Arts Vienna in collaboration with ORF Radio Symphony Hall, and premiered Fantasia 1975 by composer Minduo Li, later featured in Piano Artistry magazine. Passionate about music education and outreach, she has led concert and teaching tours across major Chinese cities, integrating performance with community engagement. In recognition of her artistic, cultural, and social contributions, she was appointed Art Development and Exchange Ambassador by the Henan Musicians Association and has been invited for residencies at leading Chinese universities.
 
-Wenting's musical journey began at the age of 4 when she first started playing the piano. By the age of 5, she had won the first prize in a national competition in China. She continued her musical education, starting her professional music studies at the age of 8 at the Affiliated Elementary School of the Shanghai Conservatory of Music.
+Her forthcoming English-to-Chinese translation of Interpreting Mozart by Eva and Paul Badura-Skoda will be published by Shanghai Education Publishing House in 2026. Her debut album on the Naxos label, featuring Liszt’s dance transcriptions, is scheduled for worldwide release in April 2026.
 
-After completing her studies at the Affiliated High School of the Shanghai Conservatory, Wenting began her academic journey at The Juilliard School in New York City in 2011. She was granted a full scholarship and studied with Dr. Yoheved Kaplinsky. In 2015, she graduated with a Bachelor's degree, receiving the Arthur Rubinstein Prize for Academic and Artistic Achievements. Continuing her studies at Juilliard, Wenting obtained her Master of Music degree in 2017. She then pursued further studies at the Yale School of Music with Prof. Boris Berman, earning a Master of Musical Arts degree in 2019. In June 2022, she achieved a Master of Arts degree with the highest distinction, "Auszeichnung/With Distinction," from the University of Music and Performing Arts in Vienna, where she studied with Prof. Avedis Kouyoumdjian. In February 2022, Wenting gained admission to the "Konzertexamen" degree program with the highest score at the Berlin University of the Arts, under the guidance of Prof. Markus Groh. Moreover, in April 2022, she was awarded a full-ride scholarship to pursue a Doctor of Musical Arts degree at the Northwestern University Bienen School of Music, studying with Prof. James Giles.
-
-Wenting currently serves as an instructor at the Northwestern University Bienen School of Music, a piano faculty member at the Music Institute of Chicago, and an artist-level piano faculty member at the New Music School Chicago.`,
+She currently serves on the faculty of Northwestern University, the Chicago New Music School, and the Music Institute of Chicago.`,
 
   quote: "Steinway has always felt like pure magic to me—turning the black and white keys into a world of color, where every note tells a story and every melody paints an emotion.",
 };
@@ -55,6 +53,8 @@ export interface NewsItem {
   externalLinkLabel?: string;
   secondaryExternalLink?: string;
   secondaryExternalLinkLabel?: string;
+  tertiaryExternalLink?: string;
+  tertiaryExternalLinkLabel?: string;
   detailImages?: string[];
 }
 
@@ -88,6 +88,8 @@ export const newsItems: NewsItem[] = [
     externalLinkLabel: "Naxos Detail Page",
     secondaryExternalLink: "https://www.prestomusic.com/classical/products/9844219--liszt-complete-piano-music-vol-68#tracklist",
     secondaryExternalLinkLabel: "Preorder",
+    tertiaryExternalLink: "https://naxos.lnk.to/8574648AC",
+    tertiaryExternalLinkLabel: "All Streaming & Purchase Links",
     link: "/news/naxos-album",
     cta: "Learn More",
   },
@@ -150,6 +152,24 @@ export function isUpcoming(dateISO: string): boolean {
 
 // All concerts - sorted by date (most recent first)
 export const allConcerts = [
+  {
+    id: "checkout-apr-2026-album-release",
+    title: "Solo Piano Spotlight- Wenting Shi All-Liszt Album Release Party",
+    date: "Saturday, April 25, 2026",
+    dateISO: "2026-04-25",
+    shortDate: "Apr 25, 2026",
+    time: "3:00 PM",
+    venue: "The CheckOut",
+    address: "4116 North Clark Street, Chicago, Illinois 60613, United States",
+    description: "Celebrate the release of pianist Wenting Shi’s new all-Liszt album on the prestigious Naxos label with Play and Pray, a riveting program that captures the full range of Liszt’s genius from sparkling, rarely heard character pieces to the transcendent Sonata in B Minor.\n\nA prizewinning international artist and Steinway Artist, Wenting Shi brings fearless virtuosity, poetic sensitivity, and commanding depth to this music, illuminating both its dazzling brilliance and profound spirituality in an unforgettable live performance.\n\nThe album will be available for purchase and Ms. Shi will sign the albums following the performance.\n\nThis is an all ages event.\nPresented by The CheckOut.\n\nJoin the wait list for tickets.\nDoors open: 2:30 PM.",
+    program: [
+      "All-Liszt program",
+      "Rarely heard character pieces",
+      "Franz Liszt: Sonata in B Minor",
+    ],
+    ticketLink: "https://dice.fm/event/xeaape-solo-piano-spotlight-wenting-shi-all-liszt-album-release-party-25th-apr-the-checkout-chicago-tickets?pid=F3RKGQIQ&_branch_match_id=1368795402227866786&utm_medium=partners_api&_branch_referrer=H4sIAAAAAAAAA8soKSkottLXz8nMy9ZLyUxO1UvL1c80TjMyTTE0M7ZMSbMvyEyxdTMO8nYP9AxUqytKTUstKsrMS49PKsovL04tsnXOKMrPTQUA879avUgAAAA%3D",
+    image: "/images/concert-checkout-chicago-2026.webp",
+  },
   {
     id: "chicago-feb-2026",
     title: "Solo Recital Chicago",

@@ -127,16 +127,24 @@ export default function ConcertsSection({
                       </ul>
                     </div>
 
-                    {featuredConcert.ticketLink && (
-                      <a
-                        href={featuredConcert.ticketLink}
-                        target="_blank"
-                        rel="noopener noreferrer"
+                    <div className="flex flex-wrap items-center gap-4">
+                      {featuredConcert.ticketLink && (
+                        <a
+                          href={featuredConcert.ticketLink}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="bracket-link text-white text-sm sm:text-base"
+                        >
+                          [ GET TICKETS ]
+                        </a>
+                      )}
+                      <Link
+                        href={`/concerts/${featuredConcert.id}`}
                         className="bracket-link text-white text-sm sm:text-base"
                       >
-                        [ {nextConcert ? "GET TICKETS" : "VIEW DETAILS"} ]
-                      </a>
-                    )}
+                        [ VIEW DETAILS ]
+                      </Link>
+                    </div>
                   </div>
                 )}
                 {/* View All Link */}

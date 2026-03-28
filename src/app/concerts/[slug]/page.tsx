@@ -28,6 +28,9 @@ export default async function ConcertDetailPage({
   const nextConcert =
     currentIndex < allConcerts.length - 1 ? allConcerts[currentIndex + 1] : null;
   const showHeaderImage = concert.image.endsWith(".webp");
+  const descriptionParagraphs = concert.description
+    ? concert.description.split("\n\n").filter(Boolean)
+    : [];
 
   return (
     <main className="h-dvh overflow-hidden bg-black text-white">
@@ -66,10 +69,17 @@ export default async function ConcertDetailPage({
             <p className="text-white/80 text-base sm:text-lg mb-1">{concert.venue}</p>
             <p className="text-white/60 text-sm sm:text-base mb-8">{concert.address}</p>
 
-            {concert.description && (
-              <p className="text-white/80 text-base sm:text-lg leading-relaxed mb-8">
-                {concert.description}
-              </p>
+            {descriptionParagraphs.length > 0 && (
+              <div className="mb-8 space-y-4">
+                {descriptionParagraphs.map((paragraph, index) => (
+                  <p
+                    key={index}
+                    className="text-white/80 text-base sm:text-lg leading-relaxed whitespace-pre-line"
+                  >
+                    {paragraph}
+                  </p>
+                ))}
+              </div>
             )}
 
             {concert.program.length > 0 && (

@@ -105,7 +105,7 @@ export default async function NewsDetailPage({ params }: NewsDetailPageProps) {
               </p>
             )}
 
-            {(news.externalLink || news.secondaryExternalLink) && (
+            {(news.externalLink || news.secondaryExternalLink || news.tertiaryExternalLink) && (
               <div className="mb-8 flex flex-wrap gap-4">
                 {news.externalLink && (
                   <a
@@ -125,6 +125,16 @@ export default async function NewsDetailPage({ params }: NewsDetailPageProps) {
                     className="inline-block text-white text-sm hover:opacity-70 transition-opacity"
                   >
                     [ {(news.secondaryExternalLinkLabel || "LEARN MORE").toUpperCase()} ]
+                  </a>
+                )}
+                {news.tertiaryExternalLink && (
+                  <a
+                    href={news.tertiaryExternalLink}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-block text-white text-sm hover:opacity-70 transition-opacity"
+                  >
+                    [ {(news.tertiaryExternalLinkLabel || "LEARN MORE").toUpperCase()} ]
                   </a>
                 )}
               </div>
