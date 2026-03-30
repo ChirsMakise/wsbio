@@ -12,5 +12,5 @@ export async function generateStaticParams() {
 }
 
 export default function Page({ params }: ConcertPageProps) {
-  return <ConcertDetailPage locale="en" params={params} />;
+  return <ConcertDetailPage locale="zh" params={params} />;
 }

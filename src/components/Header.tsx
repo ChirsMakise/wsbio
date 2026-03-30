@@ -1,15 +1,32 @@
 "use client";
 
 import { useState } from "react";
-import { navigationItems, siteConfig } from "@/data/content";
+import { usePathname } from "next/navigation";
+import { getDictionary } from "@/i18n/dictionary";
+import { Locale } from "@/i18n/config";
+import { swapLocaleInPath, withLocalePath } from "@/i18n/path";
+import { getSiteConfig } from "@/data/content-i18n";
 
 interface HeaderProps {
   soundEnabled?: boolean;
   onSoundToggle?: () => void;
+  locale: Locale;
 }
 
-export default function Header({ soundEnabled = false, onSoundToggle }: HeaderProps) {
+export default function Header({ soundEnabled = false, onSoundToggle, locale }: HeaderProps) {
   const [menuOpen, setMenuOpen] = useState(false);
+  const pathname = usePathname();
+  const dict = getDictionary(locale);
+  const siteConfig = getSiteConfig();
+  const alternateLocale: Locale = locale === "en" ? "zh" : "en";
+  const languageHref = swapLocaleInPath(pathname || "/", alternateLocale);
+  const navigationItems = [
+    { label: dict.navigation.news, href: `${withLocalePath(locale, "/")}#news` },
+    { label: dict.navigation.upcomingConcerts, href: `${withLocalePath(locale, "/")}#concerts` },
+    { label: dict.navigation.gallery, href: siteConfig.galleryLink, external: true },
+    { label: dict.navigation.resume, href: `${withLocalePath(locale, "/")}#resume` },
+    { label: dict.navigation.contact, href: `${withLocalePath(locale, "/")}#contact` },
+  ];
 
   return (
     <>
@@ -23,18 +40,27 @@ export default function Header({ soundEnabled = false, onSoundToggle }: HeaderPr
             className="bracket-link text-white text-xs sm:text-sm"
             aria-label={soundEnabled ? "Disable sound" : "Enable sound"}
           >
-            [ {soundEnabled ? "SOUND ON" : "SOUND OFF"} ]
+            [ {soundEnabled ? dict.header.soundOn : dict.header.soundOff} ]
           </button>
 
-          {/* Menu Toggle */}
-          <button
-            type="button"
-            onClick={() => setMenuOpen(true)}
-            className="bracket-link text-white text-xs sm:text-sm"
-            aria-label="Open menu"
-          >
-            [ MENU ]
-          </button>
+          <div className="flex items-center gap-4 sm:gap-6">
+            <a
+              href={languageHref}
+              className="bracket-link text-white text-xs sm:text-sm"
+              aria-label="Switch language"
+            >
+              [ {dict.header.language} ]
+            </a>
+            {/* Menu Toggle */}
+            <button
+              type="button"
+              onClick={() => setMenuOpen(true)}
+              className="bracket-link text-white text-xs sm:text-sm"
+              aria-label="Open menu"
+            >
+              [ {dict.header.menu} ]
+            </button>
+          </div>
         </div>
       </header>
 
@@ -56,7 +82,7 @@ export default function Header({ soundEnabled = false, onSoundToggle }: HeaderPr
               className="bracket-link text-white text-xs sm:text-sm"
               aria-label="Close menu"
             >
-              [ CLOSE ]
+              [ {dict.header.close} ]
             </button>
           </div>
 

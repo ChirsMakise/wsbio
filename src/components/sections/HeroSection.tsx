@@ -2,7 +2,9 @@
 
 import { useState, useEffect, useRef, useCallback } from "react";
 import ScrollIndicator from "../ScrollIndicator";
-import { heroContent } from "@/data/content";
+import { getHeroContent } from "@/data/content-i18n";
+import { getDictionary } from "@/i18n/dictionary";
+import { Locale } from "@/i18n/config";
 
 declare global {
   interface Window {
@@ -35,6 +37,7 @@ interface HeroSectionProps {
   imageSrc?: string;
   soundEnabled?: boolean;
   onSoundToggle?: () => void;
+  locale: Locale;
 }
 
 export default function HeroSection({
@@ -42,10 +45,13 @@ export default function HeroSection({
   imageSrc = "/images/hero-placeholder.jpg",
   soundEnabled = false,
   onSoundToggle,
+  locale,
 }: HeroSectionProps) {
   const [isLoaded, setIsLoaded] = useState(false);
   const [playerReady, setPlayerReady] = useState(false);
   const playerRef = useRef<YTPlayer | null>(null);
+  const heroContent = getHeroContent(locale);
+  const dict = getDictionary(locale);
 
   const initPlayer = useCallback(() => {
     if (window.YT && !playerRef.current) {
@@ -161,12 +167,12 @@ export default function HeroSection({
               isLoaded ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
             }`}
           >
-            [ {soundEnabled ? "MUTE" : heroContent.cta.text.toUpperCase()} ]
+            [ {soundEnabled ? dict.home.mute : heroContent.cta.text.toUpperCase()} ]
           </button>
         </div>
 
         {/* Scroll Indicator */}
-        <ScrollIndicator />
+        <ScrollIndicator label={dict.common.keepScrolling} />
 
         {/* Spacer for footer */}
         <div className="h-16" />

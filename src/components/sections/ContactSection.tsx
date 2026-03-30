@@ -1,9 +1,15 @@
 "use client";
 
 import { useEffect, useState, useRef } from "react";
-import { contactInfo, siteConfig } from "@/data/content";
+import { getContactInfo, getSiteConfig } from "@/data/content-i18n";
+import { getDictionary } from "@/i18n/dictionary";
+import { Locale } from "@/i18n/config";
 
-export default function ContactSection() {
+interface ContactSectionProps {
+  locale: Locale;
+}
+
+export default function ContactSection({ locale }: ContactSectionProps) {
   const [isVisible, setIsVisible] = useState(false);
   const [formState, setFormState] = useState({
     firstName: "",
@@ -14,6 +20,9 @@ export default function ContactSection() {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitStatus, setSubmitStatus] = useState<"idle" | "success" | "error">("idle");
   const sectionRef = useRef<HTMLElement>(null);
+  const contactInfo = getContactInfo(locale);
+  const siteConfig = getSiteConfig();
+  const dict = getDictionary(locale);
 
   useEffect(() => {
     const observer = new IntersectionObserver(
@@ -98,7 +107,7 @@ export default function ContactSection() {
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                   <div>
                     <label htmlFor="firstName" className="block text-white/60 text-xs uppercase tracking-wider mb-2">
-                      First Name *
+                      {dict.contact.firstName} *
                     </label>
                     <input
                       type="text"
@@ -111,7 +120,7 @@ export default function ContactSection() {
                   </div>
                   <div>
                     <label htmlFor="lastName" className="block text-white/60 text-xs uppercase tracking-wider mb-2">
-                      Last Name *
+                      {dict.contact.lastName} *
                     </label>
                     <input
                       type="text"
@@ -126,7 +135,7 @@ export default function ContactSection() {
 
                 <div>
                   <label htmlFor="email" className="block text-white/60 text-xs uppercase tracking-wider mb-2">
-                    Email *
+                    {dict.contact.email} *
                   </label>
                   <input
                     type="email"
@@ -140,7 +149,7 @@ export default function ContactSection() {
 
                 <div>
                   <label htmlFor="message" className="block text-white/60 text-xs uppercase tracking-wider mb-2">
-                    Message *
+                    {dict.contact.message} *
                   </label>
                   <textarea
                     id="message"
@@ -158,18 +167,18 @@ export default function ContactSection() {
                     disabled={isSubmitting}
                     className="bracket-link text-white text-sm sm:text-base disabled:opacity-50"
                   >
-                    [ {isSubmitting ? "SENDING..." : "SEND MESSAGE"} ]
+                    [ {isSubmitting ? dict.contact.sending : dict.contact.sendMessage} ]
                   </button>
                 </div>
 
                 {submitStatus === "success" && (
                   <p className="text-center text-green-400 text-sm">
-                    Thank you! Your message has been sent.
+                    {dict.contact.success}
                   </p>
                 )}
                 {submitStatus === "error" && (
                   <p className="text-center text-red-400 text-sm">
-                    Something went wrong. Please try again.
+                    {dict.contact.error}
                   </p>
                 )}
               </form>

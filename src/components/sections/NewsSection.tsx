@@ -3,18 +3,23 @@
 import { useEffect, useState, useRef } from "react";
 import Link from "next/link";
 import ScrollIndicator from "../ScrollIndicator";
-import { newsItems } from "@/data/content";
+import { getNewsItems } from "@/data/content-i18n";
+import { getDictionary } from "@/i18n/dictionary";
+import { Locale } from "@/i18n/config";
+import { withLocalePath } from "@/i18n/path";
 
 interface NewsSectionProps {
   imageSrc?: string;
   videoSrc?: string;
   soundEnabled?: boolean;
+  locale: Locale;
 }
 
 export default function NewsSection({
   imageSrc,
   videoSrc,
   soundEnabled = false,
+  locale,
 }: NewsSectionProps) {
   const [isVisible, setIsVisible] = useState(false);
   const sectionRef = useRef<HTMLElement>(null);
@@ -40,6 +45,8 @@ export default function NewsSection({
       videoRef.current.muted = !soundEnabled;
     }
   }, [soundEnabled]);
+  const dict = getDictionary(locale);
+  const newsItems = getNewsItems(locale);
 
   // Get top 2 news items
   const topNews = newsItems.slice(0, 2);
@@ -90,7 +97,7 @@ export default function NewsSection({
               }`}
             >
               <h2 className="text-3xl sm:text-4xl lg:text-5xl font-light text-white mb-8">
-                News
+                {dict.home.news}
               </h2>
 
               {/* Two News Items */}
@@ -111,20 +118,20 @@ export default function NewsSection({
                       </p>
                     )}
                     <Link
-                      href={news.link}
+                      href={withLocalePath(locale, news.link)}
                       className="bracket-link text-white text-sm sm:text-base"
                     >
-                      [ {news.cta?.toUpperCase() || "READ MORE"} ]
+                      [ {news.cta?.toUpperCase() || dict.common.readMore} ]
                     </Link>
                   </div>
                 ))}
 
                 {/* View All Link */}
                 <Link
-                  href="/news"
+                  href={withLocalePath(locale, "/news")}
                   className="bracket-link text-white text-sm mt-2"
                 >
-                  [ VIEW ALL ]
+                  [ {dict.common.viewAll} ]
                 </Link>
               </div>
             </div>
@@ -132,7 +139,7 @@ export default function NewsSection({
         </div>
 
         {/* Scroll Indicator */}
-        <ScrollIndicator />
+        <ScrollIndicator label={dict.common.keepScrolling} />
 
         {/* Spacer for footer */}
         <div className="h-16" />

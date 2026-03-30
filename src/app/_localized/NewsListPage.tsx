@@ -1,0 +1,73 @@
+import Link from "next/link";
+import { Locale } from "@/i18n/config";
+import { getDictionary } from "@/i18n/dictionary";
+import { withLocalePath } from "@/i18n/path";
+import { getNewsItems } from "@/data/content-i18n";
+
+interface NewsListPageProps {
+  locale: Locale;
+}
+
+export default function NewsListPage({ locale }: NewsListPageProps) {
+  const dict = getDictionary(locale);
+  const newsItems = getNewsItems(locale);
+  const alternateLocale = locale === "en" ? "zh" : "en";
+
+  return (
+    <main className="relative min-h-screen bg-black text-white">
+      <div
+        className="fixed inset-0 bg-cover bg-center md:bg-right bg-no-repeat"
+        style={{ backgroundImage: "url('/images/news_list.jpg')" }}
+      />
+      <div className="fixed inset-0 bg-black/65" />
+
+      <header className="fixed top-0 left-0 right-0 z-50 bg-black/80 backdrop-blur-sm">
+        <div className="flex items-center justify-between px-4 sm:px-8 py-4">
+          <Link href={withLocalePath(locale, "/")} className="text-white text-sm hover:opacity-70 transition-opacity">
+            [ {dict.common.back} ]
+          </Link>
+          <h1 className="text-white text-lg font-light">{dict.news.allNews}</h1>
+          <a
+            href={withLocalePath(alternateLocale, "/news")}
+            className="text-white text-sm hover:opacity-70 transition-opacity"
+          >
+            [ {dict.header.language} ]
+          </a>
+        </div>
+      </header>
+
+      <div className="relative z-10 pt-24 pb-16 px-4 sm:px-8 max-w-4xl mx-auto">
+        <h2 className="text-2xl sm:text-3xl font-light mb-8 text-white/90">
+          {dict.news.sectionTitle}
+        </h2>
+
+        <div className="space-y-8">
+          {newsItems.map((news) => (
+            <article
+              key={news.id}
+              className="border-l-2 border-white/20 pl-6 hover:border-white/50 transition-colors"
+            >
+              {news.subtitle && (
+                <p className="text-white/50 text-sm mb-1">{news.subtitle}</p>
+              )}
+              <h3 className="text-xl sm:text-2xl font-light text-white mb-2">
+                {news.title}
+              </h3>
+              {news.description && (
+                <p className="text-white/70 text-sm sm:text-base mb-4 whitespace-pre-line">
+                  {news.description}
+                </p>
+              )}
+              <Link
+                href={withLocalePath(locale, news.link)}
+                className="inline-block text-white text-sm hover:opacity-70 transition-opacity"
+              >
+                [ {news.cta?.toUpperCase() || dict.common.readMore} ]
+              </Link>
+            </article>
+          ))}
+        </div>
+      </div>
+    </main>
+  );
+}

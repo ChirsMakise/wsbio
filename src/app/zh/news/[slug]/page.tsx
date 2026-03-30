@@ -12,5 +12,5 @@ export async function generateStaticParams() {
 }
 
 export default function Page({ params }: NewsPageProps) {
-  return <NewsDetailPage locale="en" params={params} />;
+  return <NewsDetailPage locale="zh" params={params} />;
 }
