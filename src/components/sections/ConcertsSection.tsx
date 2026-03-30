@@ -7,6 +7,7 @@ import { getPastConcerts, getUpcomingConcerts } from "@/data/content-i18n";
 import { getDictionary } from "@/i18n/dictionary";
 import { Locale } from "@/i18n/config";
 import { withLocalePath } from "@/i18n/path";
+import { formatLongDate } from "@/i18n/format";
 
 interface ConcertsSectionProps {
   imageSrc?: string;
@@ -108,7 +109,7 @@ export default function ConcertsSection({
                       {featuredConcert.title}
                     </h3>
                     <p className="text-white/70 text-sm sm:text-base mb-1">
-                      {featuredConcert.date}
+                      {formatLongDate(featuredConcert.dateISO, locale)}
                     </p>
                     <p className="text-white/70 text-sm sm:text-base mb-4">
                       {featuredConcert.time}

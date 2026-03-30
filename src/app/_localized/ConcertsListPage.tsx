@@ -3,6 +3,7 @@ import { Locale } from "@/i18n/config";
 import { getDictionary } from "@/i18n/dictionary";
 import { withLocalePath } from "@/i18n/path";
 import { getPastConcerts, getUpcomingConcerts } from "@/data/content-i18n";
+import { formatLongDate } from "@/i18n/format";
 
 interface ConcertsListPageProps {
   locale: Locale;
@@ -48,7 +49,9 @@ export default function ConcertsListPage({ locale }: ConcertsListPageProps) {
                 key={concert.id}
                 className="border-l-2 border-white/20 pl-6 hover:border-white/50 transition-colors"
               >
-                <p className="text-white/50 text-sm mb-1">{concert.date}</p>
+                <p className="text-white/50 text-sm mb-1">
+                  {formatLongDate(concert.dateISO, locale)}
+                </p>
                 <p className="text-white/50 text-sm mb-2">{concert.time}</p>
                 <h3 className="text-xl sm:text-2xl font-light text-white mb-2">
                   {concert.title}
@@ -104,7 +107,9 @@ export default function ConcertsListPage({ locale }: ConcertsListPageProps) {
                 key={concert.id}
                 className="border-l-2 border-white/10 pl-6 opacity-60 hover:opacity-80 transition-opacity"
               >
-                <p className="text-white/40 text-sm mb-1">{concert.date}</p>
+                <p className="text-white/40 text-sm mb-1">
+                  {formatLongDate(concert.dateISO, locale)}
+                </p>
                 <h3 className="text-lg font-light text-white/80 mb-1">
                   {concert.title}
                 </h3>

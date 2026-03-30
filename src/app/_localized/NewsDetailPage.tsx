@@ -79,7 +79,9 @@ export default async function NewsDetailPage({ locale, params }: NewsDetailPageP
             {isSteinwayArtist && (
               <blockquote className="max-w-4xl mx-auto text-center mb-10 py-6">
                 <p className="text-2xl sm:text-3xl lg:text-4xl font-light leading-relaxed text-white">
-                  &ldquo;Steinway has always felt like pure magic to me—turning the black and white keys into a world of color, where every note tells a story and every melody sparks a dream.&rdquo;
+                  {locale === "zh"
+                    ? "“对我而言，施坦威始终像一种纯粹的魔法——黑白琴键能化作斑斓的世界，每个音符都在讲述故事，每段旋律都在点亮想象。”"
+                    : "“Steinway has always felt like pure magic to me—turning the black and white keys into a world of color, where every note tells a story and every melody sparks a dream.”"}
                 </p>
                 <footer className="mt-4 text-white/80 text-base sm:text-lg">
                   - Wenting Shi

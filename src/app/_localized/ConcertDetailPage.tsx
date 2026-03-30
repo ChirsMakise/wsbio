@@ -5,6 +5,7 @@ import { getDictionary } from "@/i18n/dictionary";
 import { withLocalePath } from "@/i18n/path";
 import { getAllConcerts } from "@/data/content-i18n";
 import { isUpcoming } from "@/data/content";
+import { formatLongDate } from "@/i18n/format";
 
 interface ConcertDetailPageProps {
   locale: Locale;
@@ -72,7 +73,9 @@ export default async function ConcertDetailPage({
             <h2 className="text-3xl sm:text-4xl lg:text-5xl font-light text-white mb-4">
               {concert.title}
             </h2>
-            <p className="text-white/70 text-sm sm:text-base mb-1">{concert.date}</p>
+            <p className="text-white/70 text-sm sm:text-base mb-1">
+              {formatLongDate(concert.dateISO, locale)}
+            </p>
             <p className="text-white/70 text-sm sm:text-base mb-5">{concert.time}</p>
             <p className="text-white/80 text-base sm:text-lg mb-1">{concert.venue}</p>
             <p className="text-white/60 text-sm sm:text-base mb-8">{concert.address}</p>
