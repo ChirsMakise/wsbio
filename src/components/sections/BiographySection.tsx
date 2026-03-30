@@ -3,18 +3,23 @@
 import { useEffect, useState, useRef } from "react";
 import Link from "next/link";
 import ScrollIndicator from "../ScrollIndicator";
-import { bioContent } from "@/data/content";
+import { getBioContent } from "@/data/content-i18n";
+import { getDictionary } from "@/i18n/dictionary";
+import { Locale } from "@/i18n/config";
+import { withLocalePath } from "@/i18n/path";
 
 interface BiographySectionProps {
   imageSrc?: string;
   videoSrc?: string;
   soundEnabled?: boolean;
+  locale: Locale;
 }
 
 export default function BiographySection({
   imageSrc,
   videoSrc,
   soundEnabled = false,
+  locale,
 }: BiographySectionProps) {
   const [isVisible, setIsVisible] = useState(false);
   const sectionRef = useRef<HTMLElement>(null);
@@ -40,6 +45,8 @@ export default function BiographySection({
       videoRef.current.muted = !soundEnabled;
     }
   }, [soundEnabled]);
+  const dict = getDictionary(locale);
+  const bioContent = getBioContent(locale);
 
   return (
     <section id="resume" ref={sectionRef} className="scroll-section">
@@ -103,10 +110,10 @@ export default function BiographySection({
                 }`}
               >
                 <Link
-                  href="/resume"
+                  href={withLocalePath(locale, "/resume")}
                   className="bracket-link text-white text-sm sm:text-base"
                 >
-                  [ READ FULL BIOGRAPHY ]
+                  [ {dict.home.readFullBiography} ]
                 </Link>
               </div>
             </div>
@@ -114,7 +121,7 @@ export default function BiographySection({
         </div>
 
         {/* Scroll Indicator */}
-        <ScrollIndicator />
+        <ScrollIndicator label={dict.common.keepScrolling} />
 
         {/* Spacer for footer */}
         <div className="h-16" />

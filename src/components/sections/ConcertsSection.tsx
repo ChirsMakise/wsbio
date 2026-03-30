@@ -3,18 +3,24 @@
 import { useEffect, useState, useRef } from "react";
 import Link from "next/link";
 import ScrollIndicator from "../ScrollIndicator";
-import { getPastConcerts, getUpcomingConcerts } from "@/data/content";
+import { getPastConcerts, getUpcomingConcerts } from "@/data/content-i18n";
+import { getDictionary } from "@/i18n/dictionary";
+import { Locale } from "@/i18n/config";
+import { withLocalePath } from "@/i18n/path";
+import { formatLongDate } from "@/i18n/format";
 
 interface ConcertsSectionProps {
   imageSrc?: string;
   videoSrc?: string;
   soundEnabled?: boolean;
+  locale: Locale;
 }
 
 export default function ConcertsSection({
   imageSrc,
   videoSrc,
   soundEnabled = false,
+  locale,
 }: ConcertsSectionProps) {
   const [isVisible, setIsVisible] = useState(false);
   const sectionRef = useRef<HTMLElement>(null);
@@ -40,12 +46,15 @@ export default function ConcertsSection({
       videoRef.current.muted = !soundEnabled;
     }
   }, [soundEnabled]);
+  const dict = getDictionary(locale);
 
-  const upcomingConcerts = getUpcomingConcerts();
-  const pastConcerts = getPastConcerts();
+  const upcomingConcerts = getUpcomingConcerts(locale);
+  const pastConcerts = getPastConcerts(locale);
   const nextConcert = upcomingConcerts[0];
   const featuredConcert = nextConcert ?? pastConcerts[0];
-  const featuredHeading = nextConcert ? "Upcoming Concerts" : "Recent Concert";
+  const featuredHeading = nextConcert
+    ? dict.home.upcomingConcerts
+    : dict.home.recentConcert;
 
   return (
     <section id="concerts" ref={sectionRef} className="scroll-section">
@@ -100,7 +109,7 @@ export default function ConcertsSection({
                       {featuredConcert.title}
                     </h3>
                     <p className="text-white/70 text-sm sm:text-base mb-1">
-                      {featuredConcert.date}
+                      {formatLongDate(featuredConcert.dateISO, locale)}
                     </p>
                     <p className="text-white/70 text-sm sm:text-base mb-4">
                       {featuredConcert.time}
@@ -115,7 +124,7 @@ export default function ConcertsSection({
                     {/* Program Preview */}
                     <div className="mb-6">
                       <p className="text-white/50 text-xs uppercase tracking-wider mb-2">
-                        Program
+                        {dict.home.program}
                       </p>
                       <ul className="text-white/70 text-sm space-y-1">
                         {featuredConcert.program.slice(0, 3).map((item, i) => (
@@ -135,24 +144,24 @@ export default function ConcertsSection({
                           rel="noopener noreferrer"
                           className="bracket-link text-white text-sm sm:text-base"
                         >
-                          [ GET TICKETS ]
+                          [ {dict.common.getTickets} ]
                         </a>
                       )}
                       <Link
-                        href={`/concerts/${featuredConcert.id}`}
+                        href={withLocalePath(locale, `/concerts/${featuredConcert.id}`)}
                         className="bracket-link text-white text-sm sm:text-base"
                       >
-                        [ VIEW DETAILS ]
+                        [ {dict.common.viewDetails} ]
                       </Link>
                     </div>
                   </div>
                 )}
                 {/* View All Link */}
                 <Link
-                  href="/concerts"
+                  href={withLocalePath(locale, "/concerts")}
                   className="bracket-link text-white text-sm mt-2"
                 >
-                  [ VIEW ALL ]
+                  [ {dict.common.viewAll} ]
                 </Link>
               </div>
             </div>
@@ -160,7 +169,7 @@ export default function ConcertsSection({
         </div>
 
         {/* Scroll Indicator */}
-        <ScrollIndicator />
+        <ScrollIndicator label={dict.common.keepScrolling} />
 
         {/* Spacer for footer */}
         <div className="h-16" />

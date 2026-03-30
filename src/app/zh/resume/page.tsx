@@ -3,12 +3,12 @@ import ResumePage from "@/app/_localized/ResumePage";
 import { buildPageMetadata } from "@/i18n/seo";
 
 export const metadata: Metadata = buildPageMetadata({
-  locale: "en",
+  locale: "zh",
   path: "/resume",
-  title: "Artistic Resumé | Wenting Shi",
-  description: "Biography and artistic resumé of Steinway Artist Wenting Shi.",
+  title: "艺术简历 | 石文婷",
+  description: "施坦威艺术家石文婷的艺术简历与个人介绍。",
 });
 
 export default function Page() {
-  return <ResumePage locale="en" />;
+  return <ResumePage locale="zh" />;
 }

@@ -15,25 +15,25 @@ export async function generateStaticParams() {
 
 export async function generateMetadata({ params }: NewsPageProps): Promise<Metadata> {
   const { slug } = await params;
-  const news = getNewsItems("en").find((item) => item.id === slug);
+  const news = getNewsItems("zh").find((item) => item.id === slug);
 
   if (!news) {
     return buildPageMetadata({
-      locale: "en",
+      locale: "zh",
       path: "/news",
-      title: "News | Wenting Shi",
-      description: "News and announcements from Steinway Artist Wenting Shi.",
+      title: "新闻 | 石文婷",
+      description: "施坦威艺术家石文婷的新闻与公告。",
     });
   }
 
   return buildPageMetadata({
-    locale: "en",
+    locale: "zh",
     path: `/news/${slug}`,
-    title: `${news.title} | Wenting Shi`,
-    description: news.description?.slice(0, 160) || "News and announcements from Steinway Artist Wenting Shi.",
+    title: `${news.title} | 石文婷`,
+    description: news.description?.slice(0, 160) || "施坦威艺术家石文婷的新闻与公告。",
   });
 }
 
 export default function Page({ params }: NewsPageProps) {
-  return <NewsDetailPage locale="en" params={params} />;
+  return <NewsDetailPage locale="zh" params={params} />;
 }

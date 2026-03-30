@@ -3,12 +3,12 @@ import ConcertsListPage from "@/app/_localized/ConcertsListPage";
 import { buildPageMetadata } from "@/i18n/seo";
 
 export const metadata: Metadata = buildPageMetadata({
-  locale: "en",
+  locale: "zh",
   path: "/concerts",
-  title: "All Concerts | Wenting Shi",
-  description: "Upcoming and past concerts by Steinway Artist Wenting Shi.",
+  title: "全部音乐会 | 石文婷",
+  description: "施坦威艺术家石文婷的近期与往期音乐会信息。",
 });
 
 export default function Page() {
-  return <ConcertsListPage locale="en" />;
+  return <ConcertsListPage locale="zh" />;
 }

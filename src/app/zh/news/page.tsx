@@ -3,12 +3,12 @@ import NewsListPage from "@/app/_localized/NewsListPage";
 import { buildPageMetadata } from "@/i18n/seo";
 
 export const metadata: Metadata = buildPageMetadata({
-  locale: "en",
+  locale: "zh",
   path: "/news",
-  title: "All News | Wenting Shi",
-  description: "News and announcements from Steinway Artist Wenting Shi.",
+  title: "全部新闻 | 石文婷",
+  description: "施坦威艺术家石文婷的新闻与公告。",
 });
 
 export default function Page() {
-  return <NewsListPage locale="en" />;
+  return <NewsListPage locale="zh" />;
 }

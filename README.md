@@ -67,28 +67,54 @@ To use a custom domain (e.g., `wentingshi.com`):
 ```
 src/
 ├── app/                    # Next.js App Router pages
-│   ├── page.tsx           # Homepage
-│   ├── news/              # News pages
-│   ├── concerts/          # Concerts page
-│   └── resume/            # Artistic resume page
+│   ├── _localized/         # Shared localized page implementations
+│   ├── page.tsx            # EN homepage
+│   ├── zh/                 # ZH route wrappers
+│   ├── news/               # EN news pages
+│   ├── concerts/           # EN concerts pages
+│   └── resume/             # EN artistic resume page
 ├── components/            # React components
 │   ├── sections/          # Page sections (Hero, News, Concerts, etc.)
 │   ├── Header.tsx
 │   ├── Footer.tsx
 │   └── ScrollIndicator.tsx
+├── i18n/
+│   ├── config.ts          # Supported locales and defaults
+│   ├── dictionary.ts      # UI text dictionaries (en/zh)
+│   ├── path.ts            # Locale-aware path helpers
+│   └── seo.ts             # hreflang/canonical metadata helper
 └── data/
-    └── content.ts         # Site content and data
+    ├── content.ts         # Source content (EN baseline)
+    └── content-i18n.ts    # Locale-aware content adapters (EN/ZH)
 ```
 
 ## Content Management
 
-All site content is managed in `src/data/content.ts`:
+Primary source content is in `src/data/content.ts` and locale adaptation is in `src/data/content-i18n.ts`:
 
 - `siteConfig` - Site metadata and social links
 - `newsItems` - News articles
 - `allConcerts` - Concert listings (automatically sorted by date)
 - `bioContent` - Biography text
 - `contactInfo` - Contact form settings
+
+### i18n Maintenance
+
+- **Routes**
+  - EN: `/`, `/news`, `/concerts`, `/resume`
+  - ZH: `/zh`, `/zh/news`, `/zh/concerts`, `/zh/resume`
+  - Dynamic detail pages keep the same slug for both locales.
+
+- **UI labels**
+  - Edit `src/i18n/dictionary.ts`.
+
+- **News / Concert localized content**
+  - Edit override maps in `src/data/content-i18n.ts`:
+    - `zhNewsOverrides`
+    - `zhConcertOverrides`
+
+- **SEO alternates / hreflang**
+  - Generated via `src/i18n/seo.ts` using per-page metadata.
 
 ## Background Images
 

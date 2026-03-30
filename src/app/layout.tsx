@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
+import HtmlLangSync from "@/components/HtmlLangSync";
 
 const inter = Inter({
   subsets: ["latin"],
@@ -9,6 +10,7 @@ const inter = Inter({
 });
 
 export const metadata: Metadata = {
+  metadataBase: new URL("https://www.wentingshi.com"),
   title: "Wenting Shi 石文婷 | Steinway Artist - Official Website",
   description:
     "Steinway Artist Wenting Shi has performed extensively across the globe, captivating audiences in numerous countries. Prizewinner of prestigious international piano competitions.",
@@ -44,8 +46,17 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className="scroll-smooth">
+    <html lang="en-US" className="scroll-smooth" suppressHydrationWarning>
+      <head>
+        <script
+          dangerouslySetInnerHTML={{
+            __html:
+              "(function(){var p=location.pathname||'/';document.documentElement.lang=(p==='/zh'||p.indexOf('/zh/')===0)?'zh-CN':'en-US';})();",
+          }}
+        />
+      </head>
       <body className={`${inter.variable} font-sans antialiased bg-black text-white`}>
+        <HtmlLangSync />
         {children}
       </body>
     </html>
