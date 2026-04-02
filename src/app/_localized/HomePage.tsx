@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import {
@@ -19,7 +19,11 @@ interface HomePageProps {
 }
 
 export default function HomePage({ locale }: HomePageProps) {
-  const [soundEnabled, setSoundEnabled] = useState(false);
+  const [soundEnabled, setSoundEnabled] = useState(locale === "zh");
+
+  useEffect(() => {
+    setSoundEnabled(locale === "zh");
+  }, [locale]);
 
   const handleSoundToggle = () => {
     setSoundEnabled(!soundEnabled);
