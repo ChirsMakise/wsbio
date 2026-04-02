@@ -105,12 +105,19 @@ body {
 .bilibili-background iframe {
   position: absolute;
   top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
+  left: 25%;
+  transform: translate(-25%, -50%);
   width: 100vw;
   height: 56.25vw;
   min-height: var(--app-height);
   min-width: calc(var(--app-height) * 1.7778);
+}
+
+@media (min-width: 768px) {
+  .bilibili-background iframe {
+    left: 50%;
+    transform: translate(-50%, -50%);
+  }
 }
 
 /* Image background */
