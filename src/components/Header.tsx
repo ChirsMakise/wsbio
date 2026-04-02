@@ -34,14 +34,20 @@ export default function Header({ soundEnabled = false, onSoundToggle, locale }: 
       <header className="fixed top-0 left-0 right-0 z-50 px-4 sm:px-6 lg:px-8 py-4 sm:py-6">
         <div className="flex justify-between items-center">
           {/* Sound Toggle */}
-          <button
-            type="button"
-            onClick={onSoundToggle}
-            className="bracket-link text-white text-xs sm:text-sm"
-            aria-label={soundEnabled ? "Disable sound" : "Enable sound"}
-          >
-            [ {soundEnabled ? dict.header.soundOn : dict.header.soundOff} ]
-          </button>
+          {locale === "zh" ? (
+            <span className="bracket-link text-transparent text-xs sm:text-sm select-none">
+              [ {dict.header.soundOff} ]
+            </span>
+          ) : (
+            <button
+              type="button"
+              onClick={onSoundToggle}
+              className="bracket-link text-white text-xs sm:text-sm"
+              aria-label={soundEnabled ? "Disable sound" : "Enable sound"}
+            >
+              [ {soundEnabled ? dict.header.soundOn : dict.header.soundOff} ]
+            </button>
+          )}
 
           <div className="flex items-center gap-4 sm:gap-6">
             <a

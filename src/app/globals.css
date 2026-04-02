@@ -89,6 +89,30 @@ body {
   }
 }
 
+/* Bilibili video background */
+.bilibili-background {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 100vw;
+  height: var(--app-height);
+  z-index: -1;
+  pointer-events: none;
+  overflow: hidden;
+}
+
+.bilibili-background iframe {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 100vw;
+  height: 56.25vw;
+  min-height: var(--app-height);
+  min-width: calc(var(--app-height) * 1.7778);
+}
+
 /* Image background */
 .image-background {
   position: absolute;
