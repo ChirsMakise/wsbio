@@ -16,7 +16,6 @@ declare global {
           playerVars: Record<string, number | string>;
           events: {
             onReady?: (event: { target: YTPlayer }) => void;
-            onStateChange?: (event: { data: number }) => void;
           };
         }
       ) => YTPlayer;
@@ -56,7 +55,6 @@ export default function HeroSection({
   const zhMode = locale === "zh";
   const [isLoaded, setIsLoaded] = useState(false);
   const [playerReady, setPlayerReady] = useState(false);
-  const [videoPlaying, setVideoPlaying] = useState(false);
   const [showVideo, setShowVideo] = useState(!zhMode);
   const [sourceNotice, setSourceNotice] = useState("");
 
@@ -80,7 +78,6 @@ export default function HeroSection({
       playerRef.current = null;
     }
     setPlayerReady(false);
-    setVideoPlaying(false);
   }, []);
 
   const initPlayer = useCallback(() => {
@@ -107,12 +104,6 @@ export default function HeroSection({
           setPlayerReady(true);
           event.target.mute();
           event.target.playVideo();
-        },
-        onStateChange: (event) => {
-          // YT.PlayerState.PLAYING === 1
-          if (event.data === 1) {
-            setVideoPlaying(true);
-          }
         },
       },
     });
@@ -186,7 +177,6 @@ export default function HeroSection({
   useEffect(() => {
     setShowVideo(!zhMode);
     setSourceNotice("");
-    setVideoPlaying(false);
     if (zhMode) {
       destroyYoutubePlayer();
     } else if (audioRef.current) {
@@ -221,13 +211,13 @@ export default function HeroSection({
     if (zhMode || !showVideo) return;
 
     const timeout = window.setTimeout(() => {
-      if (videoPlaying) return;
+      if (playerReady) return;
       setShowVideo(false);
       setSourceNotice("Video autoplay is blocked on this browser. Using static image.");
     }, 5000);
 
     return () => window.clearTimeout(timeout);
-  }, [showVideo, videoPlaying, zhMode]);
+  }, [playerReady, showVideo, zhMode]);
 
   useEffect(() => {
     if (!zhMode && showVideo && playerReady && playerRef.current) {
