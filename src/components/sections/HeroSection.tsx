@@ -16,7 +16,6 @@ declare global {
           playerVars: Record<string, number | string>;
           events: {
             onReady?: (event: { target: YTPlayer }) => void;
-            onStateChange?: (event: { data: number }) => void;
           };
         }
       ) => YTPlayer;
@@ -29,122 +28,175 @@ interface YTPlayer {
   mute: () => void;
   unMute: () => void;
   playVideo: () => void;
-  isMuted: () => boolean;
   destroy?: () => void;
 }
 
 interface HeroSectionProps {
   youtubeVideoId?: string;
-  bilibiliBvid?: string;
   imageSrc?: string;
+  zhImageSrc?: string;
+  zhAudioSrc?: string;
   soundEnabled?: boolean;
   onSoundToggle?: () => void;
   locale: Locale;
 }
 
+const basePath = process.env.NEXT_PUBLIC_BASE_PATH || "";
+
 export default function HeroSection({
   youtubeVideoId = "lB38Kqyc9XM",
-  bilibiliBvid = "BV1qy9pBFEZL",
   imageSrc = "/images/hero-placeholder.jpg",
+  zhImageSrc = "/images/hero.PNG",
+  zhAudioSrc = "/audios/clip.mp3",
   soundEnabled = false,
   onSoundToggle,
   locale,
 }: HeroSectionProps) {
+  const zhMode = locale === "zh";
   const [isLoaded, setIsLoaded] = useState(false);
   const [playerReady, setPlayerReady] = useState(false);
-  const [sourceReady, setSourceReady] = useState(false);
+  const [showVideo, setShowVideo] = useState(!zhMode);
   const [sourceNotice, setSourceNotice] = useState("");
-  const [fallbackUsed, setFallbackUsed] = useState(false);
-  const [activeVideoSource, setActiveVideoSource] = useState<"youtube" | "bilibili">(
-    locale === "zh" ? "bilibili" : "youtube"
-  );
+
+  const [audioLoading, setAudioLoading] = useState(false);
+  const [audioProgress, setAudioProgress] = useState(0);
+  const [audioPlaying, setAudioPlaying] = useState(false);
+  const [audioError, setAudioError] = useState("");
+
   const playerRef = useRef<YTPlayer | null>(null);
+  const audioRef = useRef<HTMLAudioElement | null>(null);
+  const audioBlobUrlRef = useRef<string | null>(null);
+
   const heroContent = getHeroContent(locale);
   const dict = getDictionary(locale);
-  const zhMode = locale === "zh";
-  const bilibiliPlayerSrc =
-    `https://player.bilibili.com/player.html?bvid=${bilibiliBvid}` +
-    `&page=1&t=0&autoplay=1&muted=${soundEnabled ? 0 : 1}&danmaku=false&poster=0&high_quality=1&isOutside=true`;
+  const zhAudioUrl = `${basePath}${zhAudioSrc}`;
+  const zhNowPlayingText = "正在播放：斯特拉文斯基《彼得鲁什卡》三乐章（第二乐章）";
 
-  useEffect(() => {
-    setActiveVideoSource(locale === "zh" ? "bilibili" : "youtube");
-    setSourceReady(false);
-    setPlayerReady(false);
-    setSourceNotice("");
-    setFallbackUsed(false);
-  }, [locale]);
-
-  useEffect(() => {
-    if (activeVideoSource !== "youtube" && playerRef.current) {
+  const destroyYoutubePlayer = useCallback(() => {
+    if (playerRef.current) {
       playerRef.current.destroy?.();
       playerRef.current = null;
-      setPlayerReady(false);
     }
-    setSourceReady(false);
-  }, [activeVideoSource]);
+    setPlayerReady(false);
+  }, []);
 
   const initPlayer = useCallback(() => {
-    if (activeVideoSource !== "youtube") return;
+    if (zhMode || !showVideo || !window.YT || playerRef.current) return;
 
-    if (window.YT && !playerRef.current) {
-      playerRef.current = new window.YT.Player("youtube-player", {
-        videoId: youtubeVideoId,
-        playerVars: {
-          autoplay: 1,
-          mute: 1,
-          loop: 1,
-          playlist: youtubeVideoId,
-          controls: 0,
-          showinfo: 0,
-          rel: 0,
-          modestbranding: 1,
-          playsinline: 1,
-          enablejsapi: 1,
-          disablekb: 1,
-          origin: typeof window !== "undefined" ? window.location.origin : "",
+    playerRef.current = new window.YT.Player("youtube-player", {
+      videoId: youtubeVideoId,
+      playerVars: {
+        autoplay: 1,
+        mute: 1,
+        loop: 1,
+        playlist: youtubeVideoId,
+        controls: 0,
+        showinfo: 0,
+        rel: 0,
+        modestbranding: 1,
+        playsinline: 1,
+        enablejsapi: 1,
+        disablekb: 1,
+        origin: typeof window !== "undefined" ? window.location.origin : "",
+      },
+      events: {
+        onReady: (event) => {
+          setPlayerReady(true);
+          event.target.mute();
+          event.target.playVideo();
         },
-        events: {
-          onReady: (event) => {
-            setPlayerReady(true);
-            setSourceReady(true);
-            event.target.mute();
-            event.target.playVideo();
-          },
-        },
+      },
+    });
+  }, [showVideo, youtubeVideoId, zhMode]);
+
+  const loadZhAudio = useCallback(async () => {
+    if (audioRef.current || audioLoading) return true;
+
+    setAudioLoading(true);
+    setAudioProgress(0);
+    setAudioError("");
+
+    try {
+      const response = await fetch(zhAudioUrl);
+      if (!response.ok) {
+        throw new Error("Failed to fetch audio");
+      }
+
+      const total = Number(response.headers.get("content-length") || 0);
+      let blob: Blob;
+
+      if (response.body && total > 0) {
+        const reader = response.body.getReader();
+        const chunks: BlobPart[] = [];
+        let loaded = 0;
+
+        while (true) {
+          const { done, value } = await reader.read();
+          if (done) break;
+          if (!value) continue;
+          const copy = new Uint8Array(value.byteLength);
+          copy.set(value);
+          chunks.push(copy);
+          loaded += value.length;
+          setAudioProgress(Math.min(100, Math.round((loaded / total) * 100)));
+        }
+
+        blob = new Blob(chunks, { type: "audio/mpeg" });
+      } else {
+        blob = await response.blob();
+        setAudioProgress(100);
+      }
+
+      const objectUrl = URL.createObjectURL(blob);
+      audioBlobUrlRef.current = objectUrl;
+
+      const audio = new Audio(objectUrl);
+      audio.loop = true;
+      audio.preload = "auto";
+
+      await new Promise<void>((resolve, reject) => {
+        audio.addEventListener("canplaythrough", () => resolve(), { once: true });
+        audio.addEventListener("error", () => reject(new Error("Audio cannot play")), { once: true });
       });
+
+      audioRef.current = audio;
+      setAudioProgress(100);
+      setAudioLoading(false);
+      return true;
+    } catch {
+      setAudioLoading(false);
+      setAudioError(locale === "zh" ? "音频加载失败，请稍后重试。" : "Audio failed to load.");
+      return false;
     }
-  }, [activeVideoSource, youtubeVideoId]);
+  }, [audioLoading, locale, zhAudioUrl]);
 
   useEffect(() => {
     setIsLoaded(true);
+  }, []);
 
-    if (activeVideoSource !== "youtube") {
-      return;
+  useEffect(() => {
+    setShowVideo(!zhMode);
+    setSourceNotice("");
+    if (zhMode) {
+      destroyYoutubePlayer();
+    } else if (audioRef.current) {
+      audioRef.current.pause();
+      setAudioPlaying(false);
     }
+  }, [destroyYoutubePlayer, zhMode]);
+
+  useEffect(() => {
+    if (zhMode || !showVideo) return;
 
     if (!window.YT || !window.YT.Player) {
       const tag = document.createElement("script");
       tag.src = "https://www.youtube.com/iframe_api";
       tag.onerror = () => {
-        if (!fallbackUsed) {
-          setFallbackUsed(true);
-          setActiveVideoSource("bilibili");
-          setSourceNotice(
-            locale === "zh"
-              ? "YouTube 加载失败，已自动切换到 Bilibili 备用播放源。"
-              : "YouTube failed to load. Switched to Bilibili fallback source."
-          );
-        } else {
-          setSourceNotice(
-            locale === "zh"
-              ? "备用播放源也不可用，请稍后重试。"
-              : "Fallback source is also unavailable. Please try again later."
-          );
-        }
+        setShowVideo(false);
+        setSourceNotice("Video background unavailable on this browser. Using static image.");
       };
       const firstScriptTag = document.getElementsByTagName("script")[0];
       firstScriptTag.parentNode?.insertBefore(tag, firstScriptTag);
-
       window.onYouTubeIframeAPIReady = initPlayer;
     } else {
       initPlayer();
@@ -153,109 +205,132 @@ export default function HeroSection({
     return () => {
       window.onYouTubeIframeAPIReady = () => {};
     };
-  }, [activeVideoSource, fallbackUsed, initPlayer, locale]);
+  }, [initPlayer, showVideo, zhMode]);
 
   useEffect(() => {
-    if (!isLoaded) return;
+    if (zhMode || !showVideo) return;
 
     const timeout = window.setTimeout(() => {
-      if (sourceReady) return;
-
-      if (!fallbackUsed) {
-        setFallbackUsed(true);
-        if (activeVideoSource === "youtube") {
-          setActiveVideoSource("bilibili");
-          setSourceNotice(
-            locale === "zh"
-              ? "YouTube 连接超时，已自动切换到 Bilibili 备用播放源。"
-              : "YouTube timed out. Switched to Bilibili fallback source."
-          );
-        } else {
-          setActiveVideoSource("youtube");
-          setSourceNotice(
-            locale === "zh"
-              ? "Bilibili 连接超时，已自动切换到 YouTube 备用播放源。"
-              : "Bilibili timed out. Switched to YouTube fallback source."
-          );
-        }
-      } else {
-        setSourceNotice(
-          locale === "zh"
-            ? "备用播放源也不可用，请稍后重试。"
-            : "Fallback source is also unavailable. Please try again later."
-        );
-      }
-    }, 6000);
+      if (playerReady) return;
+      setShowVideo(false);
+      setSourceNotice("Video autoplay is blocked on this browser. Using static image.");
+    }, 5000);
 
     return () => window.clearTimeout(timeout);
-  }, [activeVideoSource, fallbackUsed, isLoaded, locale, sourceReady]);
+  }, [playerReady, showVideo, zhMode]);
 
   useEffect(() => {
-    if (activeVideoSource === "youtube" && playerReady && playerRef.current) {
+    if (!zhMode && showVideo && playerReady && playerRef.current) {
       if (soundEnabled) {
         playerRef.current.unMute();
       } else {
         playerRef.current.mute();
       }
     }
-  }, [activeVideoSource, soundEnabled, playerReady]);
+  }, [playerReady, showVideo, soundEnabled, zhMode]);
 
-  const handleListenToggle = () => {
+  useEffect(() => {
+    return () => {
+      destroyYoutubePlayer();
+      if (audioRef.current) {
+        audioRef.current.pause();
+        audioRef.current = null;
+      }
+      if (audioBlobUrlRef.current) {
+        URL.revokeObjectURL(audioBlobUrlRef.current);
+        audioBlobUrlRef.current = null;
+      }
+    };
+  }, [destroyYoutubePlayer]);
+
+  const handleListenToggle = useCallback(async () => {
     if (zhMode) {
-      window.open(`https://www.bilibili.com/video/${bilibiliBvid}/`, "_blank", "noopener,noreferrer");
+      if (!audioRef.current) {
+        const ok = await loadZhAudio();
+        if (!ok || !audioRef.current) return;
+      }
+
+      try {
+        if (audioPlaying) {
+          audioRef.current.pause();
+          setAudioPlaying(false);
+        } else {
+          await audioRef.current.play();
+          setAudioPlaying(true);
+        }
+      } catch {
+        setAudioError(locale === "zh" ? "音频播放受限，请再点一次重试。" : "Audio playback is blocked. Tap again to retry.");
+      }
       return;
     }
+
     if (onSoundToggle) {
       onSoundToggle();
     }
+  }, [audioPlaying, loadZhAudio, locale, onSoundToggle, zhMode]);
+
+  const renderBackground = () => {
+    if (zhMode) {
+      return (
+        <div
+          className="image-background hero-static-background"
+          style={{
+            backgroundImage: `url(${basePath}${zhImageSrc})`,
+            backgroundSize: "cover",
+          }}
+        />
+      );
+    }
+
+    if (showVideo && youtubeVideoId) {
+      return (
+        <div className="youtube-background">
+          <div id="youtube-player" />
+        </div>
+      );
+    }
+
+    return (
+      <div
+        className="image-background hero-static-background"
+        style={{
+          backgroundImage:
+            imageSrc && !imageSrc.includes("placeholder")
+              ? `url(${imageSrc})`
+              : "linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f0f23 100%)",
+          backgroundSize: "cover",
+        }}
+      />
+    );
   };
 
   return (
     <section id="home" className="scroll-section">
-      {/* YouTube Video Background */}
-      {activeVideoSource === "youtube" && youtubeVideoId ? (
-        <div className="youtube-background">
-          <div id="youtube-player" />
-        </div>
-      ) : activeVideoSource === "bilibili" ? (
-        <div className="bilibili-background">
-          <iframe
-            key={`bili-${soundEnabled ? "unmuted" : "muted"}`}
-            src={bilibiliPlayerSrc}
-            title="Bilibili Video Background"
-            frameBorder="0"
-            allow="autoplay; encrypted-media; picture-in-picture"
-            allowFullScreen
-            onLoad={() => setSourceReady(true)}
-          />
-        </div>
-      ) : (
-        <div
-          className="image-background"
-          style={{
-            backgroundImage: imageSrc && !imageSrc.includes('placeholder')
-              ? `url(${imageSrc})`
-              : 'linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f0f23 100%)',
-            backgroundSize: "cover",
-            backgroundPosition: "center",
-          }}
-        />
-      )}
+      {renderBackground()}
 
-      {/* Overlay */}
       <div className="section-overlay" />
 
-      {/* Content */}
       <div className="section-content">
-        {sourceNotice && (
+        {(sourceNotice || audioError) && (
           <p className="text-center text-xs sm:text-sm text-white/75 tracking-wide">
-            {sourceNotice}
+            {sourceNotice || audioError}
           </p>
         )}
-        {/* Spacer for header */}
+
+        {zhMode && audioLoading && (
+          <div className="mx-auto w-56 sm:w-72 mb-2">
+            <div className="h-1.5 bg-white/20 rounded-full overflow-hidden">
+              <div
+                className="h-full bg-white/80 transition-all duration-150"
+                style={{ width: `${audioProgress}%` }}
+              />
+            </div>
+            <p className="text-center text-xs text-white/70 mt-2">加载音频 {audioProgress}%</p>
+          </div>
+        )}
+
         <div className="h-16" />
 
-        {/* Center Content */}
         <div className="flex-1 flex flex-col items-center justify-center text-center">
           <h1
             className={`text-5xl sm:text-6xl md:text-7xl lg:text-8xl font-light text-white tracking-wide mb-4 transition-all duration-1000 ${
@@ -271,20 +346,47 @@ export default function HeroSection({
           >
             {heroContent.subheadline}
           </p>
+
+          {zhMode && audioPlaying && (
+            <div className="mb-6 transition-all duration-500">
+              <div className="audio-rhythm-bars" aria-hidden="true">
+                <span />
+                <span />
+                <span />
+                <span />
+                <span />
+                <span />
+                <span />
+                <span />
+              </div>
+              <p className="mt-3 text-sm sm:text-base text-white/85 tracking-wide">
+                {zhNowPlayingText}
+              </p>
+            </div>
+          )}
+
           <button
             onClick={handleListenToggle}
             className={`bracket-link text-white text-sm sm:text-base transition-all duration-1000 delay-500 ${
               isLoaded ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
             }`}
           >
-            [ {zhMode ? heroContent.cta.text.toUpperCase() : soundEnabled ? dict.home.mute : heroContent.cta.text.toUpperCase()} ]
+            [
+            {zhMode
+              ? audioLoading
+                ? `加载中 ${audioProgress}%`
+                : audioPlaying
+                  ? "暂停播放"
+                  : "立即聆听"
+              : soundEnabled
+                ? dict.home.mute
+                : heroContent.cta.text.toUpperCase()}
+            ]
           </button>
         </div>
 
-        {/* Scroll Indicator */}
         <ScrollIndicator label={dict.common.keepScrolling} />
 
-        {/* Spacer for footer */}
         <div className="h-16" />
       </div>
     </section>
