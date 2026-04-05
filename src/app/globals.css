@@ -89,37 +89,6 @@ body {
   }
 }
 
-/* Bilibili video background */
-.bilibili-background {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  width: 100vw;
-  height: var(--app-height);
-  z-index: -1;
-  pointer-events: none;
-  overflow: hidden;
-}
-
-.bilibili-background iframe {
-  position: absolute;
-  top: 50%;
-  left: 25%;
-  transform: translate(-25%, -50%);
-  width: 100vw;
-  height: 56.25vw;
-  min-height: var(--app-height);
-  min-width: calc(var(--app-height) * 1.7778);
-}
-
-@media (min-width: 768px) {
-  .bilibili-background iframe {
-    left: 50%;
-    transform: translate(-50%, -50%);
-  }
-}
-
 /* Image background */
 .image-background {
   position: absolute;
@@ -129,6 +98,16 @@ body {
   height: 100%;
   object-fit: cover;
   z-index: -1;
+}
+
+.hero-static-background {
+  background-position: 25% center;
+}
+
+@media (min-width: 768px) {
+  .hero-static-background {
+    background-position: center;
+  }
 }
 
 /* Overlay for better text readability */
@@ -171,6 +150,55 @@ body {
 .bracket-link:hover {
   opacity: 0.7;
 }
+
+@keyframes audioBarPulse {
+  0% {
+    transform: scaleY(0.3);
+    opacity: 0.45;
+  }
+  25% {
+    transform: scaleY(1);
+    opacity: 1;
+  }
+  50% {
+    transform: scaleY(0.55);
+    opacity: 0.8;
+  }
+  75% {
+    transform: scaleY(0.9);
+    opacity: 1;
+  }
+  100% {
+    transform: scaleY(0.3);
+    opacity: 0.45;
+  }
+}
+
+.audio-rhythm-bars {
+  display: flex;
+  justify-content: center;
+  align-items: flex-end;
+  gap: 4px;
+  height: 28px;
+}
+
+.audio-rhythm-bars span {
+  display: block;
+  width: 3px;
+  height: 100%;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.9);
+  transform-origin: bottom;
+  animation: audioBarPulse 1.2s ease-in-out infinite;
+}
+
+.audio-rhythm-bars span:nth-child(2) { animation-delay: 0.08s; }
+.audio-rhythm-bars span:nth-child(3) { animation-delay: 0.16s; }
+.audio-rhythm-bars span:nth-child(4) { animation-delay: 0.24s; }
+.audio-rhythm-bars span:nth-child(5) { animation-delay: 0.32s; }
+.audio-rhythm-bars span:nth-child(6) { animation-delay: 0.4s; }
+.audio-rhythm-bars span:nth-child(7) { animation-delay: 0.48s; }
+.audio-rhythm-bars span:nth-child(8) { animation-delay: 0.56s; }
 
 /* News sections with shared sticky background */
 .news-container {
