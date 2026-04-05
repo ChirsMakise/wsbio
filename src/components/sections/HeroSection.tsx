@@ -86,36 +86,41 @@ export default function HeroSection({
   const initPlayer = useCallback(() => {
     if (zhMode || !showVideo || !window.YT || playerRef.current) return;
 
-    playerRef.current = new window.YT.Player("youtube-player", {
-      videoId: youtubeVideoId,
-      playerVars: {
-        autoplay: 1,
-        mute: 1,
-        loop: 1,
-        playlist: youtubeVideoId,
-        controls: 0,
-        showinfo: 0,
-        rel: 0,
-        modestbranding: 1,
-        playsinline: 1,
-        enablejsapi: 1,
-        disablekb: 1,
-        origin: typeof window !== "undefined" ? window.location.origin : "",
-      },
-      events: {
-        onReady: (event) => {
-          setPlayerReady(true);
-          event.target.mute();
-          event.target.playVideo();
+    try {
+      playerRef.current = new window.YT.Player("youtube-player", {
+        videoId: youtubeVideoId,
+        playerVars: {
+          autoplay: 1,
+          mute: 1,
+          loop: 1,
+          playlist: youtubeVideoId,
+          controls: 0,
+          showinfo: 0,
+          rel: 0,
+          modestbranding: 1,
+          playsinline: 1,
+          enablejsapi: 1,
+          disablekb: 1,
+          origin: typeof window !== "undefined" ? window.location.origin : "",
         },
-        onStateChange: (event) => {
-          // YT.PlayerState.PLAYING === 1
-          if (event.data === 1) {
-            setVideoPlaying(true);
-          }
+        events: {
+          onReady: (event) => {
+            setPlayerReady(true);
+            event.target.mute();
+            event.target.playVideo();
+          },
+          onStateChange: (event) => {
+            // YT.PlayerState.PLAYING === 1
+            if (event.data === 1) {
+              setVideoPlaying(true);
+            }
+          },
         },
-      },
-    });
+      });
+    } catch {
+      setShowVideo(false);
+      setSourceNotice("Video player failed to initialize. Using static image.");
+    }
   }, [showVideo, youtubeVideoId, zhMode]);
 
   const loadZhAudio = useCallback(async () => {
@@ -134,7 +139,7 @@ export default function HeroSection({
       const total = Number(response.headers.get("content-length") || 0);
       let blob: Blob;
 
-      if (response.body && total > 0) {
+      if (response.body && typeof response.body.getReader === "function" && total > 0) {
         const reader = response.body.getReader();
         const chunks: BlobPart[] = [];
         let loaded = 0;
@@ -206,8 +211,19 @@ export default function HeroSection({
         setSourceNotice("Video background unavailable on this browser. Using static image.");
       };
       const firstScriptTag = document.getElementsByTagName("script")[0];
-      firstScriptTag.parentNode?.insertBefore(tag, firstScriptTag);
-      window.onYouTubeIframeAPIReady = initPlayer;
+      if (firstScriptTag?.parentNode) {
+        firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
+      } else {
+        (document.head || document.body).appendChild(tag);
+      }
+      window.onYouTubeIframeAPIReady = () => {
+        try {
+          initPlayer();
+        } catch {
+          setShowVideo(false);
+          setSourceNotice("Video background unavailable on this browser. Using static image.");
+        }
+      };
     } else {
       initPlayer();
     }
