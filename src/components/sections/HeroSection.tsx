@@ -45,7 +45,7 @@ const basePath = process.env.NEXT_PUBLIC_BASE_PATH || "";
 
 export default function HeroSection({
   youtubeVideoId = "lB38Kqyc9XM",
-  imageSrc = "/images/hero-placeholder.jpg",
+  imageSrc = "/images/hero.PNG",
   zhImageSrc = "/images/hero.PNG",
   zhAudioSrc = "/audios/clip.mp3",
   soundEnabled = false,
@@ -56,7 +56,7 @@ export default function HeroSection({
   const [isLoaded, setIsLoaded] = useState(false);
   const [playerReady, setPlayerReady] = useState(false);
   const [showVideo, setShowVideo] = useState(!zhMode);
-  const [sourceNotice, setSourceNotice] = useState("");
+  const [useAudioFallback, setUseAudioFallback] = useState(false);
 
   const [audioLoading, setAudioLoading] = useState(false);
   const [audioProgress, setAudioProgress] = useState(0);
@@ -71,6 +71,8 @@ export default function HeroSection({
   const dict = getDictionary(locale);
   const zhAudioUrl = `${basePath}${zhAudioSrc}`;
   const zhNowPlayingText = "正在播放：斯特拉文斯基《彼得鲁什卡》三乐章（第二乐章）";
+  const enNowPlayingText = "Now Playing: Stravinsky - Three Movements from Petrushka (II)";
+  const audioMode = zhMode || useAudioFallback;
 
   const destroyYoutubePlayer = useCallback(() => {
     if (playerRef.current) {
@@ -176,7 +178,7 @@ export default function HeroSection({
 
   useEffect(() => {
     setShowVideo(!zhMode);
-    setSourceNotice("");
+    setUseAudioFallback(false);
     if (zhMode) {
       destroyYoutubePlayer();
     } else if (audioRef.current) {
@@ -186,14 +188,23 @@ export default function HeroSection({
   }, [destroyYoutubePlayer, zhMode]);
 
   useEffect(() => {
+    if (audioMode) return;
+    if (audioRef.current) {
+      audioRef.current.pause();
+      setAudioPlaying(false);
+    }
+  }, [audioMode]);
+
+  useEffect(() => {
     if (zhMode || !showVideo) return;
 
     if (!window.YT || !window.YT.Player) {
       const tag = document.createElement("script");
       tag.src = "https://www.youtube.com/iframe_api";
       tag.onerror = () => {
+        destroyYoutubePlayer();
         setShowVideo(false);
-        setSourceNotice("Video background unavailable on this browser. Using static image.");
+        setUseAudioFallback(true);
       };
       const firstScriptTag = document.getElementsByTagName("script")[0];
       firstScriptTag.parentNode?.insertBefore(tag, firstScriptTag);
@@ -205,29 +216,30 @@ export default function HeroSection({
     return () => {
       window.onYouTubeIframeAPIReady = () => {};
     };
-  }, [initPlayer, showVideo, zhMode]);
+  }, [destroyYoutubePlayer, initPlayer, showVideo, zhMode]);
 
   useEffect(() => {
     if (zhMode || !showVideo) return;
 
     const timeout = window.setTimeout(() => {
       if (playerReady) return;
+      destroyYoutubePlayer();
       setShowVideo(false);
-      setSourceNotice("Video autoplay is blocked on this browser. Using static image.");
+      setUseAudioFallback(true);
     }, 5000);
 
     return () => window.clearTimeout(timeout);
-  }, [playerReady, showVideo, zhMode]);
+  }, [destroyYoutubePlayer, playerReady, showVideo, zhMode]);
 
   useEffect(() => {
-    if (!zhMode && showVideo && playerReady && playerRef.current) {
+    if (!audioMode && showVideo && playerReady && playerRef.current) {
       if (soundEnabled) {
         playerRef.current.unMute();
       } else {
         playerRef.current.mute();
       }
     }
-  }, [playerReady, showVideo, soundEnabled, zhMode]);
+  }, [audioMode, playerReady, showVideo, soundEnabled]);
 
   useEffect(() => {
     return () => {
@@ -244,7 +256,7 @@ export default function HeroSection({
   }, [destroyYoutubePlayer]);
 
   const handleListenToggle = useCallback(async () => {
-    if (zhMode) {
+    if (audioMode) {
       if (!audioRef.current) {
         const ok = await loadZhAudio();
         if (!ok || !audioRef.current) return;
@@ -267,10 +279,10 @@ export default function HeroSection({
     if (onSoundToggle) {
       onSoundToggle();
     }
-  }, [audioPlaying, loadZhAudio, locale, onSoundToggle, zhMode]);
+  }, [audioMode, audioPlaying, loadZhAudio, locale, onSoundToggle]);
 
   const renderBackground = () => {
-    if (zhMode) {
+    if (audioMode) {
       return (
         <div
           className="image-background hero-static-background"
@@ -311,13 +323,13 @@ export default function HeroSection({
       <div className="section-overlay" />
 
       <div className="section-content">
-        {(sourceNotice || audioError) && (
+        {audioError && (
           <p className="text-center text-xs sm:text-sm text-white/75 tracking-wide">
-            {sourceNotice || audioError}
+            {audioError}
           </p>
         )}
 
-        {zhMode && audioLoading && (
+        {audioMode && audioLoading && (
           <div className="mx-auto w-56 sm:w-72 mb-2">
             <div className="h-1.5 bg-white/20 rounded-full overflow-hidden">
               <div
@@ -325,7 +337,9 @@ export default function HeroSection({
                 style={{ width: `${audioProgress}%` }}
               />
             </div>
-            <p className="text-center text-xs text-white/70 mt-2">加载音频 {audioProgress}%</p>
+            <p className="text-center text-xs text-white/70 mt-2">
+              {locale === "zh" ? `加载音频 ${audioProgress}%` : `Loading audio ${audioProgress}%`}
+            </p>
           </div>
         )}
 
@@ -347,7 +361,7 @@ export default function HeroSection({
             {heroContent.subheadline}
           </p>
 
-          {zhMode && audioPlaying && (
+          {audioMode && audioPlaying && (
             <div className="mb-6 transition-all duration-500">
               <div className="audio-rhythm-bars" aria-hidden="true">
                 <span />
@@ -360,7 +374,7 @@ export default function HeroSection({
                 <span />
               </div>
               <p className="mt-3 text-sm sm:text-base text-white/85 tracking-wide">
-                {zhNowPlayingText}
+                {locale === "zh" ? zhNowPlayingText : enNowPlayingText}
               </p>
             </div>
           )}
@@ -372,12 +386,18 @@ export default function HeroSection({
             }`}
           >
             [
-            {zhMode
+            {audioMode
               ? audioLoading
-                ? `加载中 ${audioProgress}%`
+                ? locale === "zh"
+                  ? `加载中 ${audioProgress}%`
+                  : `LOADING ${audioProgress}%`
                 : audioPlaying
-                  ? "暂停播放"
-                  : "立即聆听"
+                  ? locale === "zh"
+                    ? "暂停播放"
+                    : "PAUSE"
+                  : locale === "zh"
+                    ? "立即聆听"
+                    : heroContent.cta.text.toUpperCase()
               : soundEnabled
                 ? dict.home.mute
                 : heroContent.cta.text.toUpperCase()}
