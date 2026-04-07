@@ -75,11 +75,11 @@ const zhConcertOverrides: Partial<Record<string, Partial<LocalizedConcert>>> = {
     ],
   },
   "henan-chamber-dec-2025": {
-    title: "河南理工大学与玉音四重奏室内乐音乐会",
+    title: "河南理工大学与余音四重奏室内乐音乐会",
     venue: "河南理工大学",
     address: "中国河南",
     description:
-      "受邀以访问教授身份驻留河南理工大学音乐学院。\n\n本场室内乐之夜与玉音弦乐四重奏合作，演出贝多芬、勃拉姆斯与德沃夏克作品。",
+      "受邀以访问教授身份驻留河南理工大学音乐学院。\n\n本场室内乐之夜与余音弦乐四重奏合作，演出贝多芬、勃拉姆斯与德沃夏克作品。",
     program: [
       "贝多芬：D大调第五钢琴三重奏 Op.70 No.1“幽灵”",
       "勃拉姆斯：g小调第一钢琴四重奏 Op.25",
@@ -310,7 +310,7 @@ const zhBio = {
   short:
     "施坦威艺术家石文婷是一位享誉国际的钢琴家，以细腻的艺术表现力与独特的音乐语言而闻名。她的艺术背景横跨亚洲、欧洲与美国，在舞台上呈现出兼具深度、色彩与叙事感的演绎。",
   full:
-    "施坦威艺术家石文婷是一位享誉国际的钢琴家，其艺术成就曾获多项重要荣誉。她曾获美国 Luminarts Cultural Foundation Fellowship Award 一等奖，并获授 Fellow Artist 称号。其他重要奖项还包括美国 Thaviu-Isaak 钢琴比赛一等奖，以及柏林 Artur Schnabel Piano Competition、香港国际钢琴比赛（WFIMC）、Serge & Olga Koussevitzky Young Artist Awards Piano Competition 和 San Jose International Piano Competition 等赛事奖项。她同时也是奥地利 Cziffra Foundation 颁发 Georges Cziffra Prize 的获奖者。\n\n石文婷的学术与艺术训练体现出她对音乐卓越的不懈追求。她本科阶段荣获 Arthur Rubinstein Prize for Academic and Artistic Achievement，随后在 The Juilliard School 与 Yale School of Music 完成研究生阶段学习。立足德奥音乐传统，她以最高等级荣誉（Auszeichnung / With Distinction）毕业于 University of Music and Performing Arts Vienna，并在 Berlin University of the Arts 获得德国最高演奏学位 Konzertexamen。她亦拥有 Northwestern University Bienen School of Music 的 Doctor of Musical Arts（音乐艺术博士）学位。\n\n作为国际钢琴演奏家，石文婷曾与多支重要乐团合作演出，包括 Shanghai Symphony Orchestra、Shenzhen Symphony Orchestra、Hong Kong Symphony Orchestra 及 Hradec Králové Philharmonic Orchestra。她曾在全球多座重要音乐厅登台，包括 Alice Tully Hall（纽约）、Salle Gaveau（巴黎）、Royal Museum of Fine Arts of Belgium（布鲁塞尔）、Hong Kong City Hall 以及 Musikverein（维也纳）。\n\n除舞台演出外，石文婷亦积极投入教学、合作与文化交流。她曾担任 Pearl River · Kayserburg International Youth Piano Competition（2021、2023）评委，参与 University of Music and Performing Arts Vienna 与 ORF Radio Symphony Hall 合作的纪念专辑项目，并首演作曲家李敏铎作品 Fantasia 1975，后收录于 Piano Artistry 杂志。她长期关注音乐教育与公众推广，曾在中国多座城市开展“演出 + 教学”巡演。因其在艺术、文化与社会层面的贡献，她获河南省音乐家协会授予 Art Development and Exchange Ambassador 称号，并受邀于多所中国高校驻留交流。\n\n她即将出版 Eva and Paul Badura-Skoda 所著 Interpreting Mozart 的英译中译本（由 Shanghai Education Publishing House 于 2026 年出版）。其 Naxos 厂牌首张专辑将收录李斯特舞曲改编作品，并计划于 2026 年 4 月全球发行。\n\n她目前任教于 Northwestern University、Chicago New Music School 以及 Music Institute of Chicago。",
+    "施坦威艺术家、旅美钢琴演奏家石文婷，任教于美国西北大学比恩音乐学院、芝加哥音乐学院及芝加哥新音乐学校。\n\n作为演奏家，石文婷的足迹遍及世界各大音乐厅，包括纽约林肯中心爱丽丝·塔利音乐厅、巴黎加沃音乐厅以及维也纳金色大厅等，并与捷克赫拉德茨-克拉洛韦爱乐乐团、香港交响乐团、上海交响乐团等合作演出。\n\n石文婷是美国Luminarts文化艺术基金会艺术家。在国内外重要赛事中屡获殊荣，曾获世界国际音乐比赛联盟（WFIMC）第五届中国香港国际钢琴大赛银奖（为中国籍选手在该赛事中的最高荣誉）。此外，她还在德国柏林阿图尔·施纳贝尔国际钢琴比赛、美国谢尔盖与奥尔加·库塞维茨基青年艺术家钢琴比赛、美国圣何塞国际钢琴比赛、加拿大多伦多国际钢琴比赛、中国台北肖邦国际钢琴比赛及罗马尼亚布加勒斯特国际钢琴比赛等赛事中获奖。\n\n在学术方面，她以全额奖学金考入美国茱莉亚音乐学院，获得音乐学士及硕士学位，并荣获“阿图尔·鲁宾斯坦奖”。随后，她先后获得耶鲁大学音乐艺术硕士学位、奥地利维也纳国立音乐与表演艺术大学艺术硕士学位、德国柏林艺术大学演奏博士学位，以及美国西北大学音乐艺术博士学位。\n\n石文婷长期致力于音乐教育与艺术推广，曾在包括美国芝加哥大学、东伊利诺伊大学、加利福尼亚大学尔湾分校在内的高校，以及国内多座主要城市开展音乐会与教学活动，将舞台演出与公众教育有机结合。基于其在艺术、文化与社会层面的持续贡献，她被河南省音乐家协会授予“艺术发展与交流大使”称号，并受邀赴多所高校开展驻校交流，举办独奏与室内乐音乐会，同时从事教学与学术活动。\n\n其首张个人专辑已由全球知名唱片公司拿索斯（Naxos）于2026年4月全球发行；其独立翻译的《诠释莫扎特》（伊娃与保罗·巴杜拉-斯柯达著）将由上海教育出版社于2026年出版。",
   quote:
     "对我而言，施坦威始终像一种纯粹的魔法——黑白琴键能化作斑斓的世界，每个音符都在讲述故事，每段旋律都在点亮想象。",
 };
