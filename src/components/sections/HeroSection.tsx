@@ -111,7 +111,7 @@ export default function HeroSection({
     });
   }, [showVideo, youtubeVideoId, zhMode]);
 
-  const loadZhAudio = useCallback(async () => {
+  const loadZhAudio = useCallback(() => {
     if (audioRef.current || audioLoading) return true;
 
     setAudioLoading(true);
@@ -119,51 +119,31 @@ export default function HeroSection({
     setAudioError("");
 
     try {
-      const response = await fetch(zhAudioUrl);
-      if (!response.ok) {
-        throw new Error("Failed to fetch audio");
-      }
-
-      const total = Number(response.headers.get("content-length") || 0);
-      let blob: Blob;
-
-      if (response.body && total > 0) {
-        const reader = response.body.getReader();
-        const chunks: BlobPart[] = [];
-        let loaded = 0;
-
-        while (true) {
-          const { done, value } = await reader.read();
-          if (done) break;
-          if (!value) continue;
-          const copy = new Uint8Array(value.byteLength);
-          copy.set(value);
-          chunks.push(copy);
-          loaded += value.length;
-          setAudioProgress(Math.min(100, Math.round((loaded / total) * 100)));
-        }
-
-        blob = new Blob(chunks, { type: "audio/mpeg" });
-      } else {
-        blob = await response.blob();
-        setAudioProgress(100);
-      }
-
-      const objectUrl = URL.createObjectURL(blob);
-      audioBlobUrlRef.current = objectUrl;
-
-      const audio = new Audio(objectUrl);
+      const audio = new Audio(zhAudioUrl);
       audio.loop = true;
       audio.preload = "auto";
 
-      await new Promise<void>((resolve, reject) => {
-        audio.addEventListener("canplaythrough", () => resolve(), { once: true });
-        audio.addEventListener("error", () => reject(new Error("Audio cannot play")), { once: true });
+      audio.addEventListener("canplay", () => {
+        setAudioLoading(false);
+        setAudioProgress(100);
+      });
+      audio.addEventListener("playing", () => {
+        setAudioLoading(false);
+        setAudioProgress(100);
+        setAudioPlaying(true);
+      });
+      audio.addEventListener("pause", () => {
+        setAudioPlaying(false);
+      });
+      audio.addEventListener("waiting", () => {
+        if (!audio.paused) setAudioLoading(true);
+      });
+      audio.addEventListener("error", () => {
+        setAudioLoading(false);
+        setAudioError(locale === "zh" ? "音频加载失败，请稍后重试。" : "Audio failed to load.");
       });
 
       audioRef.current = audio;
-      setAudioProgress(100);
-      setAudioLoading(false);
       return true;
     } catch {
       setAudioLoading(false);
@@ -258,7 +238,7 @@ export default function HeroSection({
   const handleListenToggle = useCallback(async () => {
     if (audioMode) {
       if (!audioRef.current) {
-        const ok = await loadZhAudio();
+        const ok = loadZhAudio();
         if (!ok || !audioRef.current) return;
       }
 
@@ -267,10 +247,14 @@ export default function HeroSection({
           audioRef.current.pause();
           setAudioPlaying(false);
         } else {
+          setAudioLoading(true);
           await audioRef.current.play();
           setAudioPlaying(true);
+          setAudioLoading(false);
+          setAudioProgress(100);
         }
       } catch {
+        setAudioLoading(false);
         setAudioError(locale === "zh" ? "音频播放受限，请再点一次重试。" : "Audio playback is blocked. Tap again to retry.");
       }
       return;
