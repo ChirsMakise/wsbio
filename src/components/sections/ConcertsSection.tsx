@@ -122,19 +122,21 @@ export default function ConcertsSection({
                     </p>
 
                     {/* Program Preview */}
-                    <div className="mb-6">
-                      <p className="text-white/50 text-xs uppercase tracking-wider mb-2">
-                        {dict.home.program}
-                      </p>
-                      <ul className="text-white/70 text-sm space-y-1">
-                        {featuredConcert.program.slice(0, 3).map((item, i) => (
-                          <li key={i}>{item}</li>
-                        ))}
-                        {featuredConcert.program.length > 3 && (
-                          <li className="text-white/50">...</li>
-                        )}
-                      </ul>
-                    </div>
+                    {featuredConcert.program.length > 0 && (
+                      <div className="mb-6">
+                        <p className="text-white/50 text-xs uppercase tracking-wider mb-2">
+                          {dict.home.program}
+                        </p>
+                        <ul className="text-white/70 text-sm space-y-1">
+                          {featuredConcert.program.slice(0, 3).map((item, i) => (
+                            <li key={i}>{item}</li>
+                          ))}
+                          {featuredConcert.program.length > 3 && (
+                            <li className="text-white/50">...</li>
+                          )}
+                        </ul>
+                      </div>
+                    )}
 
                     <div className="flex flex-wrap items-center gap-4">
                       {featuredConcert.ticketLink && (
