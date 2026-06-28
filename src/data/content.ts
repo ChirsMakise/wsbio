@@ -142,16 +142,73 @@ export const newsItems: NewsItem[] = [
   },
 ];
 
+export interface Concert {
+  id: string;
+  title: string;
+  date: string;
+  dateISO: string;
+  shortDate: string;
+  time: string;
+  venue: string;
+  address: string;
+  description?: string;
+  program: string[];
+  ticketLink: string;
+  detailLink?: string;
+  image: string;
+}
+
 // Helper function to check if a concert is upcoming based on ISO date
 export function isUpcoming(dateISO: string): boolean {
-  const concertDate = new Date(dateISO);
+  const [year, month, day] = dateISO.split("-").map(Number);
+  const concertDate = new Date(year, month - 1, day);
   const today = new Date();
   today.setHours(0, 0, 0, 0); // Compare dates only, not time
   return concertDate >= today;
 }
 
 // All concerts - sorted by date (most recent first)
-export const allConcerts = [
+export const allConcerts: Concert[] = [
+  {
+    id: "henan-piano-masterclass-jul-2026",
+    title: "What Do We Practice When We Practice Piano? — Public Lecture & Masterclass",
+    date: "Friday, July 3, 2026",
+    dateISO: "2026-07-03",
+    shortDate: "Jul 3, 2026",
+    time: "3:00 PM",
+    venue: "Henan Art Center · Small Theater",
+    address: "Zhengzhou, Henan, China",
+    description: "From finger training to musical thinking: this public lecture and masterclass reexamines what it means to practice the piano. Through musical examples and everyday practice, Wenting Shi explores how pianists can move beyond mechanical repetition, develop clear aural judgment, hear their own playing, and gradually become their own teachers.\n\nFree reservation for Henan Art Center members. Each attendee, including children, must reserve a ticket. Reservation hotline: 0371-69092200. Space is limited.",
+    program: [],
+    ticketLink: "https://weixin.polyt.cn/thh5/#/enter-activity-detail?theaterId=1136&id=1276571150862577664",
+    detailLink: "https://mp.weixin.qq.com/s/_hGxlowqEg5b3wQ2czq8MA",
+    image: "/images/concert-henan-east-west-jul-2026.jpg",
+  },
+  {
+    id: "henan-east-west-jul-2026",
+    title: "Jing · Jie — East and West in the Piano",
+    date: "Thursday, July 2, 2026",
+    dateISO: "2026-07-02",
+    shortDate: "Jul 2, 2026",
+    time: "7:30 PM",
+    venue: "Henan Art Center · Concert Hall",
+    address: "Zhengzhou, Henan, China",
+    description: "Born in the West, the piano has continually become a medium for different cultural imaginations and aesthetic traditions. “Jing · Jie — East and West in the Piano” brings together contrasting yet resonant works by Chinese and European composers.\n\nFollowing four images—dance, narrative, landscape, and theater—the program explores how the piano can transcend language and geography to create a shared space of perception between cultures.",
+    program: [
+      "Conradi / Liszt: Zigeuner-Polka, S. 481/R. 146",
+      "Sun Yiqiang: Dancing Grain",
+      "Li Yinghai: Flute and Drum at Sunset",
+      "Weber / Liszt: Polonaise brillante, S. 455/R. 460",
+      "Intermission",
+      "Arr. Wang Jianzhong: Colorful Clouds Chasing the Moon",
+      "Liszt: Au lac de Wallenstadt, S. 160/6",
+      "Zhang Zhao: Pi Huang",
+      "Stravinsky: Three Movements from Petrushka",
+    ],
+    ticketLink: "https://weixin.polyt.cn/thh5/#/home?theaterId=1136",
+    detailLink: "https://mp.weixin.qq.com/s/yKG-93HqtvAHohD8OLEQLg",
+    image: "/images/concert-henan-east-west-jul-2026.jpg",
+  },
   {
     id: "checkout-apr-2026-album-release",
     title: "Solo Piano Spotlight- Wenting Shi All-Liszt Album Release Party",

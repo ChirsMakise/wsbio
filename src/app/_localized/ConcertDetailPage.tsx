@@ -31,7 +31,7 @@ export default async function ConcertDetailPage({
   const prevConcert = currentIndex > 0 ? allConcerts[currentIndex - 1] : null;
   const nextConcert =
     currentIndex < allConcerts.length - 1 ? allConcerts[currentIndex + 1] : null;
-  const showHeaderImage = concert.image.endsWith(".webp");
+  const showHeaderImage = Boolean(concert.image);
   const descriptionParagraphs = concert.description
     ? concert.description.split("\n\n").filter(Boolean)
     : [];
@@ -106,16 +106,28 @@ export default async function ConcertDetailPage({
               </div>
             )}
 
-            {concert.ticketLink && (
-              <div className="mb-8">
-                <a
-                  href={concert.ticketLink}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="inline-block text-white text-sm hover:opacity-70 transition-opacity"
-                >
-                  [ {upcoming ? dict.common.getTickets : dict.concerts.viewEventLink} ]
-                </a>
+            {(concert.ticketLink || concert.detailLink) && (
+              <div className="mb-8 flex flex-wrap gap-x-6 gap-y-3">
+                {concert.ticketLink && (
+                  <a
+                    href={concert.ticketLink}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-block text-white text-sm hover:opacity-70 transition-opacity"
+                  >
+                    [ {upcoming ? dict.common.getTickets : dict.concerts.viewEventLink} ]
+                  </a>
+                )}
+                {concert.detailLink && (
+                  <a
+                    href={concert.detailLink}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-block text-white text-sm hover:opacity-70 transition-opacity"
+                  >
+                    [ {dict.common.viewDetails} ]
+                  </a>
+                )}
               </div>
             )}
           </div>
