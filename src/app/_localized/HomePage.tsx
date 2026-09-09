@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import Link from "next/link";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import {
@@ -64,6 +65,35 @@ export default function HomePage({ locale }: HomePageProps) {
           <BiographySection locale={locale} soundEnabled={soundEnabled} />
         </div>
       </div>
+
+      <section className="scroll-section overflow-hidden">
+        <div
+          className="image-background piano-studio-background bg-cover"
+          style={{ backgroundImage: `url(${basePath}/images/upcoming_concerts.JPG)` }}
+        />
+        <div className="section-overlay bg-black/40" />
+        <div className="section-content justify-center">
+          <div className="mx-auto w-full max-w-3xl text-center">
+            <p className="mb-4 text-xs tracking-[0.18em] text-white/65">
+              {locale === "en" ? "Chicago's North Shore" : "芝加哥北岸"}
+            </p>
+            <h2 className="text-3xl font-light text-white sm:text-4xl lg:text-5xl">
+              {locale === "en" ? "Private Piano Studio" : "私人钢琴工作室"}
+            </h2>
+            <p className="mx-auto mt-6 max-w-2xl text-base leading-relaxed text-white/80 sm:text-lg">
+              {locale === "en"
+                ? "Wenting maintains a private piano studio in Wilmette, Illinois, working with motivated students throughout Chicago's North Shore. Her teaching combines rigorous technical development with a strong emphasis on listening, musical understanding, and artistic individuality."
+                : "石文婷在伊利诺伊州 Wilmette 设有私人钢琴工作室，与来自芝加哥北岸各社区、认真投入音乐学习的学生合作。她的教学结合严谨的技术训练、敏锐的聆听、音乐理解与个人艺术表达。"}
+            </p>
+            <Link
+              href={locale === "en" ? "/piano-lessons-wilmette" : "/zh/piano-lessons-wilmette"}
+              className="mt-8 inline-block border border-white px-5 py-3 text-sm tracking-[0.12em] text-white transition-colors hover:bg-white hover:text-black"
+            >
+              {locale === "en" ? "Private Piano Lessons in Wilmette" : "Wilmette 私人钢琴课"}
+            </Link>
+          </div>
+        </div>
+      </section>
 
       <div className="contact-container">
         <div

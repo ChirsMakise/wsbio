@@ -25,6 +25,7 @@ export default function Header({ soundEnabled = false, onSoundToggle, locale }: 
     { label: dict.navigation.upcomingConcerts, href: `${withLocalePath(locale, "/")}#concerts` },
     { label: dict.navigation.gallery, href: siteConfig.galleryLink, external: true },
     { label: dict.navigation.resume, href: `${withLocalePath(locale, "/")}#resume` },
+    { label: locale === "en" ? "Piano Studio" : "钢琴工作室", href: withLocalePath(locale, "/piano-lessons-wilmette") },
     { label: dict.navigation.contact, href: `${withLocalePath(locale, "/")}#contact` },
   ];
 
@@ -34,7 +35,7 @@ export default function Header({ soundEnabled = false, onSoundToggle, locale }: 
       <header className="fixed top-0 left-0 right-0 z-50 px-4 sm:px-6 lg:px-8 py-4 sm:py-6">
         <div className="flex justify-between items-center">
           {/* Sound Toggle */}
-          {locale === "zh" ? (
+          {locale === "zh" || !onSoundToggle ? (
             <span className="bracket-link text-transparent text-xs sm:text-sm select-none">
               [ {dict.header.soundOff} ]
             </span>

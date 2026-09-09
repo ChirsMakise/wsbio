@@ -280,6 +280,16 @@ body {
   }
 }
 
+.piano-studio-background {
+  background-position: 85% center;
+}
+
+@media (min-width: 768px) {
+  .piano-studio-background {
+    background-position: center bottom;
+  }
+}
+
 .concerts-sticky-overlay {
   position: sticky;
   top: 0;
