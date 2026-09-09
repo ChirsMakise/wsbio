@@ -45,6 +45,14 @@ export default function ResumePage({ locale }: ResumePageProps) {
           {paragraphs.map((paragraph, index) => (
             <p key={index}>{paragraph}</p>
           ))}
+          {locale === "en" && (
+            <p>
+              In addition to her performing career, Wenting maintains a{" "}
+              <Link href="/piano-lessons-wilmette" className="underline underline-offset-4 hover:opacity-70">
+                private piano studio in Wilmette
+              </Link>.
+            </p>
+          )}
         </div>
 
         <div className="border-t border-white/20 pt-8 mt-8">
